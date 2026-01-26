@@ -575,16 +575,41 @@
         }
       ],
       "id": "23e77263-7c94-4be4-9e9c-9e1a7695d623"
+    },
+    {
+      "name": "Dashboard",
+      "item": [],
+      "id": "ba460435-0daf-4be5-bdaa-9a0b026a012b"
+    },
+    {
+      "name": "Dashboard Summary",
+      "id": "c77ac7cc-e2c6-4a89-b9b5-c47983fefefa",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{localhost}}/api/v1/dashboard",
+          "host": [
+            "{{localhost}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "dashboard"
+          ]
+        }
+      },
+      "response": []
     }
   ],
   "variable": [
     {
-      "id": "0920fff3-7c6a-492a-8b25-1d2dc1786afb",
+      "id": "5b13607b-6d84-4fcb-bd5d-13028b91f8f6",
       "key": "localhost",
       "value": ""
     },
     {
-      "id": "b358fe08-6000-4f5d-9ab9-8899aeea1726",
+      "id": "9ee50cb8-3b14-4208-903d-74bebf63639d",
       "key": "accessToken",
       "value": ""
     }
