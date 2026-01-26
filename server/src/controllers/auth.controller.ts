@@ -58,7 +58,7 @@ export const registerUser = async (req: Request, res: Response) => {
     })
   } catch (error) {
     console.log(error)
-    res.status(500).json({ message: 'Internal server error' })
+    res.status(500).json({ message: 'Failed to register user' })
   }
 }
 
@@ -66,6 +66,8 @@ export const registerUser = async (req: Request, res: Response) => {
 // @route   POST /api/v1/auth/login
 // @access  Public
 export const loginUser = async (req: Request, res: Response) => {
+  console.log('@')
+
   try {
     const { email, password } = req.body
 
@@ -94,7 +96,7 @@ export const loginUser = async (req: Request, res: Response) => {
     })
   } catch (error) {
     console.log(error)
-    res.status(500).json({ message: 'Internal server error' })
+    res.status(500).json({ message: 'Failed to login user' })
   }
 }
 
@@ -112,6 +114,6 @@ export const getUserProfile = async (req: Request, res: Response) => {
     res.status(200).json(user)
   } catch (error) {
     console.log(error)
-    res.status(500).json({ message: 'Internal server error' })
+    res.status(500).json({ message: 'Failed to get user profile' })
   }
 }

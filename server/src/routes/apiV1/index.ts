@@ -1,8 +1,10 @@
 import express from 'express'
-import { authRouter } from './auth'
+import { authRoutes } from './auth'
+import { blogPostRoutes } from './blog'
 
-const route = express.Router()
+const router = express.Router()
 
-route.use('/auth', authRouter)
+router.use('/auth', authRoutes)
+router.use('/posts', blogPostRoutes)
 
-export const apiV1 = route
+export const apiV1 = router

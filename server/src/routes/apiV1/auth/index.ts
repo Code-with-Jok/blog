@@ -27,4 +27,4 @@ router.post('/upload-image', upload.single('image'), (req, res) => {
   })
 })
 
-export const authRouter = router
+export const authRoutes = router

@@ -4,20 +4,7 @@ import { Document } from 'mongoose'
 declare global {
   namespace Express {
     interface Request {
-      user?: Document<
-        unknown,
-        {},
-        {
-          name: string
-          email: string
-          password: string
-          bio: string
-          role: 'admin' | 'member'
-          profileImageUrl?: string | null
-          createdAt: Date
-          updatedAt: Date
-        }
-      >
+      user?: HydratedDocument<User>
     }
   }
 }

@@ -6,13 +6,14 @@ interface IJwtPayload extends JwtPayload {
   id: string
 }
 
+// auth middleware
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const authHeader = req.header('Authorization')
     const token = authHeader && authHeader.startsWith('Bearer') && authHeader.split(' ')[1]
 
     if (!token) {
-      return res.status(401).json({ message: 'Unauthorized' })
+      return res.status(401).json({ message: 'Token is required' })
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET ?? '') as IJwtPayload
@@ -25,6 +26,14 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     req.user = user
     next()
   } catch (error) {
-    return res.status(401).json({ message: 'Unauthorized' })
+    return res.status(401).json({ message: 'Invalid token' })
   }
+}
+
+// admin-only middleware
+export const adminOnlyMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  if (req.user && req.user.role === 'admin') {
+    return next()
+  }
+  return res.status(403).json({ message: 'Admin access only' })
 }
