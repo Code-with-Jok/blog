@@ -121,7 +121,9 @@
                 {
                   "key": "image",
                   "type": "file",
-                  "src": "/C:/Users/lh222/Downloads/132031580_741496816797254_4028618000574283360_n.jpg"
+                  "src": [
+                    "/C:/Users/lh222/Downloads/132031580_741496816797254_4028618000574283360_n.jpg"
+                  ]
                 }
               ]
             },
@@ -379,8 +381,28 @@
           "name": "Liked Blog Post",
           "id": "9a3100b7-30ec-4821-a458-f00ca3ffe3c6",
           "request": {
-            "method": "GET",
-            "header": []
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/api/v1/posts/:id/like",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                ":id",
+                "like"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6977099103672ce5a0294b13",
+                  "uuid": "4a828d7b-dada-4215-af77-39b738c4778d"
+                }
+              ]
+            }
           },
           "response": []
         },
@@ -407,42 +429,162 @@
         }
       ],
       "id": "4b6f9ef2-0ac4-4ba9-94e0-37a42180fab8"
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "id": "ecca1afb-c222-42b6-b7d7-b9c1ee6e7d94",
-        "type": "text/javascript",
-        "packages": {},
-        "requests": {},
-        "exec": [
-          ""
-        ]
-      }
     },
     {
-      "listen": "test",
-      "script": {
-        "id": "3a00743e-9f03-4357-81e6-28da72f9a616",
-        "type": "text/javascript",
-        "packages": {},
-        "requests": {},
-        "exec": [
-          ""
-        ]
-      }
+      "name": "Comment",
+      "item": [
+        {
+          "name": "Create Comment",
+          "id": "dc7f936f-f73b-4b11-8c12-845ea03d30c1",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"content\":\"Love\",\r\n    \"parentComment\":\"697736fef9c678e3059f3a3d\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/comments/:postId",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "comments",
+                ":postId"
+              ],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": "6977441bcc550875d0eef299"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Comments",
+          "id": "c0aa96be-c5a3-44b4-8df6-2152490579e8",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/comments",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "comments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getCommentsByPostId",
+          "id": "214a83f9-9075-44a7-80c8-3e756ee61100",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/api/v1/comments/:postId",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "comments",
+                ":postId"
+              ],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": "697744e7cc550875d0eef2b1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Comment",
+          "id": "c2f16bb6-2688-4c54-8216-702c93015918",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/api/v1/comments/:commentId",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "comments",
+                ":commentId"
+              ],
+              "variable": [
+                {
+                  "key": "commentId",
+                  "value": "697744e7cc550875d0eef2b1",
+                  "uuid": "adc07338-783e-47fa-89d0-06986bf03bdb"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "23e77263-7c94-4be4-9e9c-9e1a7695d623"
     }
   ],
   "variable": [
     {
-      "id": "cfde7a43-1193-4bd9-873b-e130857f9f04",
+      "id": "0920fff3-7c6a-492a-8b25-1d2dc1786afb",
       "key": "localhost",
       "value": ""
     },
     {
-      "id": "c88015f3-31c3-4fa6-a20a-f1f0a6114fb9",
+      "id": "b358fe08-6000-4f5d-9ab9-8899aeea1726",
       "key": "accessToken",
       "value": ""
     }
