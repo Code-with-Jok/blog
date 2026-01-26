@@ -1,0 +1,794 @@
+{
+  "info": {
+    "_postman_id": "87d11b52-bf04-4565-abc7-562d7e522a00",
+    "name": "Blog App",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "id": "28132d4d-baa9-4964-9121-9e5fe3ada9a1",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"test2\",\r\n    \"email\": \"test2@gmail.com\",\r\n    \"password\": \"test@123\",\r\n    \"profileImageUrl\": \"http://localhost:8000/uploads/1769339879991-132031580_741496816797254_4028618000574283360_n.jpg\",\r\n    \"bio\": \"\",\r\n    \"adminAccessToken\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/auth/register",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "id": "bf30ae19-ffcf-43f1-8d29-0adb6b8a75f5",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"test1@gmail.com\",\r\n    \"password\": \"test@123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/auth/login",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Info",
+          "id": "91681a8a-1a81-4372-b526-dfee926a2797",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/api/v1/auth/profile",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Image",
+          "id": "c55e129f-151d-40cd-96f6-3ee64f6a9262",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": [
+                    "/C:/Users/lh222/Downloads/132031580_741496816797254_4028618000574283360_n.jpg"
+                  ]
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/auth/upload-image",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "upload-image"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "82cf64c5-2d00-499c-a6e2-395023320f54"
+    },
+    {
+      "name": "Blog Post",
+      "item": [
+        {
+          "name": "Create Blog Post",
+          "id": "1fe43e1e-89eb-4a03-8025-724352854d6c",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Create Blog Post\",\r\n    \"content\":\"Content\",\r\n    \"convertImageUrl\":\"convertImageUrl\",\r\n    \"tags\":[\"Vue\"],\r\n    \"isDraft\":false,\r\n    \"generatedByAI\":false\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/posts",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "posts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Blog Post",
+          "id": "e3c08924-69fe-4a54-bc9f-1c80ca6ff9d1",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Update Blog Post\",\r\n    \"content\":\"Content\",\r\n    \"convertImageUrl\":\"convertImageUrl\",\r\n    \"tags\":[\"MERN\",\"REACT\"],\r\n    \"isDraft\":false,\r\n    \"generatedByAI\":false\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/posts/6976efe8c3d4b4afcdbac6c8",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                "6976efe8c3d4b4afcdbac6c8"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Blog Posts",
+          "id": "2b359d24-df1d-4fb2-bd7e-e279a55f0c2f",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/api/v1/posts?status=all&page=1",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "posts"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "all"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Blog Post",
+          "id": "92529f67-4686-4d91-93f0-1707488c4998",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/api/v1/posts/6976f962278f5f0a7e282e7a",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                "6976f962278f5f0a7e282e7a"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Blog Post By Tag",
+          "id": "3159266e-1269-4735-8be4-7fa47a4f57bd",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/api/v1/posts/tag/Vue",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                "tag",
+                "Vue"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Blog Post By Slug",
+          "id": "efd50d31-cfd4-4dd8-8f82-c6ed3f92793e",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/api/v1/posts/slug/test",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                "slug",
+                "test"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Blog Post",
+          "id": "40ef9f13-bb8d-4f2e-aeea-87e85b26b85b",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/api/v1/posts/search?q",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "increment Blog Post View",
+          "id": "a21d6206-9b13-42c4-8729-fd6c52032988",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/api/v1/posts/:id/view",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                ":id",
+                "view"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6977099103672ce5a0294b13"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Liked Blog Post",
+          "id": "9a3100b7-30ec-4821-a458-f00ca3ffe3c6",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/api/v1/posts/:id/like",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                ":id",
+                "like"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6977099103672ce5a0294b13",
+                  "uuid": "4a828d7b-dada-4215-af77-39b738c4778d"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Trending Blog Posts",
+          "id": "87003e4e-e984-4e45-8608-7a79213b5f50",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/api/v1/posts/trending",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                "trending"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "4b6f9ef2-0ac4-4ba9-94e0-37a42180fab8"
+    },
+    {
+      "name": "Comment",
+      "item": [
+        {
+          "name": "Create Comment",
+          "id": "dc7f936f-f73b-4b11-8c12-845ea03d30c1",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"content\":\"Love\",\r\n    \"parentComment\":\"697736fef9c678e3059f3a3d\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/comments/:postId",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "comments",
+                ":postId"
+              ],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": "6977441bcc550875d0eef299"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Comments",
+          "id": "c0aa96be-c5a3-44b4-8df6-2152490579e8",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/comments",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "comments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getCommentsByPostId",
+          "id": "214a83f9-9075-44a7-80c8-3e756ee61100",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/api/v1/comments/:postId",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "comments",
+                ":postId"
+              ],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": "697744e7cc550875d0eef2b1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Comment",
+          "id": "c2f16bb6-2688-4c54-8216-702c93015918",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/api/v1/comments/:commentId",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "comments",
+                ":commentId"
+              ],
+              "variable": [
+                {
+                  "key": "commentId",
+                  "value": "697744e7cc550875d0eef2b1",
+                  "uuid": "adc07338-783e-47fa-89d0-06986bf03bdb"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "23e77263-7c94-4be4-9e9c-9e1a7695d623"
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Dashboard Summary",
+          "id": "c77ac7cc-e2c6-4a89-b9b5-c47983fefefa",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/api/v1/dashboard",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "dashboard"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "ba460435-0daf-4be5-bdaa-9a0b026a012b"
+    },
+    {
+      "name": "AI",
+      "item": [
+        {
+          "name": "AI Blog Post Generation",
+          "id": "1658888b-ce25-4835-bdce-a715073644f4",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\":\"How to use ReactJS\",\r\n    \"tone\":\"technical\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/ai/generate",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "ai",
+                "generate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AI Blog Post Ideas Generation",
+          "id": "69b62984-7968-4b1d-a4f8-185d275f3630",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"topics\":\"Reacjs, NestJS, TypeScript\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/ai/generate-ideas",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "ai",
+                "generate-ideas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AI Comment Reply Generation",
+          "id": "5f8ac493-878e-46d3-a7eb-464e280ee004",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"author\":{\r\n        \"name\":\"John\"\r\n    },\r\n    \"content\":\"How do I run the vite reactjs project\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/ai/generate-reply",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "ai",
+                "generate-reply"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AI Generate Blog Post Summary",
+          "id": "09b1b6b6-f2eb-4d60-b1f0-786d0963960c",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"content\":\"Love it...\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/ai/generate-summary",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "ai",
+                "generate-summary"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "ad3cefc2-7eb0-4985-ab32-277d2f884403"
+    }
+  ],
+  "variable": [
+    {
+      "id": "a9e9659c-c9d5-484b-969b-b950bee97930",
+      "key": "localhost",
+      "value": ""
+    },
+    {
+      "id": "71525799-9af6-49b3-89cf-0dc9bedc5cb0",
+      "key": "accessToken",
+      "value": ""
+    }
+  ]
+}
