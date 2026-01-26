@@ -578,38 +578,215 @@
     },
     {
       "name": "Dashboard",
-      "item": [],
+      "item": [
+        {
+          "name": "Dashboard Summary",
+          "id": "c77ac7cc-e2c6-4a89-b9b5-c47983fefefa",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/api/v1/dashboard",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "dashboard"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
       "id": "ba460435-0daf-4be5-bdaa-9a0b026a012b"
     },
     {
-      "name": "Dashboard Summary",
-      "id": "c77ac7cc-e2c6-4a89-b9b5-c47983fefefa",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{localhost}}/api/v1/dashboard",
-          "host": [
-            "{{localhost}}"
-          ],
-          "path": [
-            "api",
-            "v1",
-            "dashboard"
-          ]
+      "name": "AI",
+      "item": [
+        {
+          "name": "AI Blog Post Generation",
+          "id": "1658888b-ce25-4835-bdce-a715073644f4",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\":\"How to use ReactJS\",\r\n    \"tone\":\"technical\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/ai/generate",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "ai",
+                "generate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AI Blog Post Ideas Generation",
+          "id": "69b62984-7968-4b1d-a4f8-185d275f3630",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"topics\":\"Reacjs, NestJS, TypeScript\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/ai/generate-ideas",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "ai",
+                "generate-ideas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AI Comment Reply Generation",
+          "id": "5f8ac493-878e-46d3-a7eb-464e280ee004",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"author\":{\r\n        \"name\":\"John\"\r\n    },\r\n    \"content\":\"How do I run the vite reactjs project\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/ai/generate-reply",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "ai",
+                "generate-reply"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AI Generate Blog Post Summary",
+          "id": "09b1b6b6-f2eb-4d60-b1f0-786d0963960c",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"content\":\"Love it...\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/v1/ai/generate-summary",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "ai",
+                "generate-summary"
+              ]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ],
+      "id": "ad3cefc2-7eb0-4985-ab32-277d2f884403"
     }
   ],
   "variable": [
     {
-      "id": "5b13607b-6d84-4fcb-bd5d-13028b91f8f6",
+      "id": "a9e9659c-c9d5-484b-969b-b950bee97930",
       "key": "localhost",
       "value": ""
     },
     {
-      "id": "9ee50cb8-3b14-4208-903d-74bebf63639d",
+      "id": "71525799-9af6-49b3-89cf-0dc9bedc5cb0",
       "key": "accessToken",
       "value": ""
     }

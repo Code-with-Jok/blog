@@ -2,6 +2,9 @@ import BlogPost from '@/models/BlogPost'
 import Comment from '@/models/Comment'
 import { Request, Response } from 'express'
 
+// @desc    Get dashboard summary
+// @route   GET /api/v1/dashboard/summary
+// @access  Private
 export const getDashboardSummary = async (req: Request, res: Response) => {
   try {
     const [totalPosts, draftPosts, publishedPosts, aiGeneratedPosts, totalComments] = await Promise.all([
