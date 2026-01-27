@@ -205,7 +205,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"title\": \"Update Blog Post\",\r\n    \"content\":\"Content\",\r\n    \"convertImageUrl\":\"convertImageUrl\",\r\n    \"tags\":[\"MERN\",\"REACT\"],\r\n    \"isDraft\":false,\r\n    \"generatedByAI\":false\r\n}",
+              "raw": "{\r\n    \"title\": \"Update Blog Post\",\r\n    \"content\":\"Content\",\r\n    \"convertImageUrl\":\"http://localhost:8000/uploads/1769527569614-avatar.gif\",\r\n    \"tags\":[\"MERN\",\"REACT\"],\r\n    \"isDraft\":false,\r\n    \"generatedByAI\":false\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -213,7 +213,7 @@
               }
             },
             "url": {
-              "raw": "{{localhost}}/api/v1/posts/6976efe8c3d4b4afcdbac6c8",
+              "raw": "{{localhost}}/api/v1/posts/6977441bcc550875d0eef299",
               "host": [
                 "{{localhost}}"
               ],
@@ -221,7 +221,7 @@
                 "api",
                 "v1",
                 "posts",
-                "6976efe8c3d4b4afcdbac6c8"
+                "6977441bcc550875d0eef299"
               ]
             }
           },
@@ -398,8 +398,7 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "6977099103672ce5a0294b13",
-                  "uuid": "4a828d7b-dada-4215-af77-39b738c4778d"
+                  "value": "6977099103672ce5a0294b13"
                 }
               ]
             }
@@ -565,8 +564,7 @@
               "variable": [
                 {
                   "key": "commentId",
-                  "value": "697744e7cc550875d0eef2b1",
-                  "uuid": "adc07338-783e-47fa-89d0-06986bf03bdb"
+                  "value": "697744e7cc550875d0eef2b1"
                 }
               ]
             }
@@ -781,12 +779,12 @@
   ],
   "variable": [
     {
-      "id": "a9e9659c-c9d5-484b-969b-b950bee97930",
+      "id": "2de78702-38ff-4270-ac1e-7c1834761363",
       "key": "localhost",
       "value": ""
     },
     {
-      "id": "71525799-9af6-49b3-89cf-0dc9bedc5cb0",
+      "id": "3f930381-8335-45b3-a35d-b3ba7e7ae83c",
       "key": "accessToken",
       "value": ""
     }
