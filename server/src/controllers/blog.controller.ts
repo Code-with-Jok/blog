@@ -7,7 +7,7 @@ import { populate } from 'dotenv'
 // @access Private (Admin only)
 export const createBlogPost = async (req: Request, res: Response) => {
   try {
-    const { title, content, convertImageUrl, tags, isDraft, generatedByAI } = req.body
+    const { title, content, coverImageUrl, tags, isDraft, generatedByAI } = req.body
 
     if (!title || !content) {
       return res.status(400).json({ message: 'Title and content are required' })
@@ -22,7 +22,7 @@ export const createBlogPost = async (req: Request, res: Response) => {
       title,
       slug,
       content,
-      convertImageUrl,
+      coverImageUrl,
       tags,
       author: req.user?._id,
       isDraft,
@@ -51,7 +51,7 @@ export const updateBlogPost = async (req: Request, res: Response) => {
       return res.status(403).json({ message: 'You are not authorized to update this blog post' })
     }
 
-    const { title, content, convertImageUrl, tags, isDraft, generatedByAI } = req.body
+    const { title, content, coverImageUrl, tags, isDraft, generatedByAI } = req.body
 
     if (!title || !content) {
       return res.status(400).json({ message: 'Title and content are required' })
@@ -68,7 +68,7 @@ export const updateBlogPost = async (req: Request, res: Response) => {
         title,
         slug,
         content,
-        convertImageUrl,
+        coverImageUrl,
         tags,
         isDraft,
         generatedByAI

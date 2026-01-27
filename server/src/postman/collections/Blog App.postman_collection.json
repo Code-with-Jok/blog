@@ -16,7 +16,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"test2\",\r\n    \"email\": \"test2@gmail.com\",\r\n    \"password\": \"test@123\",\r\n    \"profileImageUrl\": \"http://localhost:8000/uploads/1769339879991-132031580_741496816797254_4028618000574283360_n.jpg\",\r\n    \"bio\": \"\",\r\n    \"adminAccessToken\": \"\"\r\n}",
+              "raw": "{\r\n    \"name\": \"test1\",\r\n    \"email\": \"test1@gmail.com\",\r\n    \"password\": \"test@123\",\r\n    \"profileImageUrl\": \"http://localhost:8000/uploads/1769339879991-132031580_741496816797254_4028618000574283360_n.jpg\",\r\n    \"bio\": \"\",\r\n    \"adminAccessToken\": \"222\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -122,7 +122,7 @@
                   "key": "image",
                   "type": "file",
                   "src": [
-                    "/C:/Users/lh222/Downloads/132031580_741496816797254_4028618000574283360_n.jpg"
+                    "/C:/Users/lh222/Downloads/avatar.gif"
                   ]
                 }
               ]
@@ -166,7 +166,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"title\": \"Create Blog Post\",\r\n    \"content\":\"Content\",\r\n    \"convertImageUrl\":\"convertImageUrl\",\r\n    \"tags\":[\"Vue\"],\r\n    \"isDraft\":false,\r\n    \"generatedByAI\":false\r\n}",
+              "raw": "{\r\n    \"title\": \"Create Blog Post 5\",\r\n    \"content\":\"Content\",\r\n    \"coverImageUrl\":\"http://localhost:8000/uploads/1769540996000-avatar.gif\",\r\n    \"tags\":[\"NestJS\",\r\n        \"TypeScript\"\r\n    ],\r\n    \"isDraft\":false,\r\n    \"generatedByAI\":false\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -205,7 +205,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"title\": \"Update Blog Post\",\r\n    \"content\":\"Content\",\r\n    \"convertImageUrl\":\"http://localhost:8000/uploads/1769527569614-avatar.gif\",\r\n    \"tags\":[\"MERN\",\"REACT\"],\r\n    \"isDraft\":false,\r\n    \"generatedByAI\":false\r\n}",
+              "raw": "{\r\n    \"title\": \"Update Blog Post\",\r\n    \"content\":\"Content\",\r\n    \"coverImageUrl\":\"http://localhost:8000/uploads/1769527569614-avatar.gif\",\r\n    \"tags\":[\"MERN\",\"REACT\"],\r\n    \"isDraft\":false,\r\n    \"generatedByAI\":false\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -213,7 +213,7 @@
               }
             },
             "url": {
-              "raw": "{{localhost}}/api/v1/posts/6977441bcc550875d0eef299",
+              "raw": "{{localhost}}/api/v1/posts/:id",
               "host": [
                 "{{localhost}}"
               ],
@@ -221,7 +221,14 @@
                 "api",
                 "v1",
                 "posts",
-                "6977441bcc550875d0eef299"
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "69790d942143e4bdea8f6153",
+                  "uuid": "b1829d05-0bb8-4046-95fd-c3c67561c241"
+                }
               ]
             }
           },
@@ -261,10 +268,20 @@
           "name": "Delete Blog Post",
           "id": "92529f67-4686-4d91-93f0-1707488c4998",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{localhost}}/api/v1/posts/6976f962278f5f0a7e282e7a",
+              "raw": "{{localhost}}/api/v1/posts/:id",
               "host": [
                 "{{localhost}}"
               ],
@@ -272,7 +289,14 @@
                 "api",
                 "v1",
                 "posts",
-                "6976f962278f5f0a7e282e7a"
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "69790dba2143e4bdea8f615c",
+                  "uuid": "e56d600c-859d-4598-a52c-2d2175e4821e"
+                }
               ]
             }
           },
@@ -285,7 +309,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{localhost}}/api/v1/posts/tag/Vue",
+              "raw": "{{localhost}}/api/v1/posts/tag/:tag",
               "host": [
                 "{{localhost}}"
               ],
@@ -294,7 +318,14 @@
                 "v1",
                 "posts",
                 "tag",
-                "Vue"
+                ":tag"
+              ],
+              "variable": [
+                {
+                  "key": "tag",
+                  "value": "MERN",
+                  "uuid": "d7cb5229-509e-499d-bbd4-50ee749de67d"
+                }
               ]
             }
           },
@@ -307,7 +338,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{localhost}}/api/v1/posts/slug/test",
+              "raw": "{{localhost}}/api/v1/posts/slug/:slug",
               "host": [
                 "{{localhost}}"
               ],
@@ -316,7 +347,14 @@
                 "v1",
                 "posts",
                 "slug",
-                "test"
+                ":slug"
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "update-blog-post",
+                  "uuid": "6dc3bb35-a6cc-47ef-a55c-27a24d8b299f"
+                }
               ]
             }
           },
@@ -370,7 +408,7 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "6977099103672ce5a0294b13"
+                  "value": "69790d942143e4bdea8f6153"
                 }
               ]
             }
@@ -381,6 +419,16 @@
           "name": "Liked Blog Post",
           "id": "9a3100b7-30ec-4821-a458-f00ca3ffe3c6",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "POST",
             "header": [],
             "url": {
@@ -398,7 +446,7 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "6977099103672ce5a0294b13"
+                  "value": "69790d942143e4bdea8f6153"
                 }
               ]
             }

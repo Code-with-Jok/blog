@@ -13,7 +13,7 @@ export interface BlogPost {
   title: string
   slug: string
   content: string
-  convertImageUrl?: string | null
+  coverImageUrl?: string | null
   tags?: string[]
   author: string
   isDraft?: boolean

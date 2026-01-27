@@ -16,7 +16,7 @@ const blogPostSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    convertImageUrl: {
+    coverImageUrl: {
       type: String,
       default: null
     },
