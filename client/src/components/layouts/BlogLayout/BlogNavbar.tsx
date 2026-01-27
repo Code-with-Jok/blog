@@ -5,6 +5,11 @@ import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { LuSearch } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import SideMenu from "../SideMenu";
+import { useUserContext } from "@/context/UserContextDefinition";
+import ProfileInfoCard from "@/components/Cards/ProfileInfoCard";
+import Modal from "@/components/Modal";
+import Login from "@/components/Auth/Login";
+import SignUp from "@/components/Auth/SignUp";
 
 type BlogNavbarProps = {
   activeMenu?: string;
@@ -14,71 +19,109 @@ const BlogNavbar = ({ activeMenu }: BlogNavbarProps) => {
   const [openSideMenu, setOpenSideMenu] = useState(false);
   const [openSerachBar, setOpenSerachBar] = useState(false);
 
+  const { user, setOpenAuthForm } = useUserContext();
+
   return (
-    <div className="bg-white border border-b border-gray-200/50 backdrop-blur-[2px] py-4 px-7 sticky top-0 z-30">
-      <div className="container mx-auto flex items-center justify-between gap-5">
-        <div className="flex gap-5">
-          <button
-            className="block lg:hidden text-black -mt-1"
-            onClick={() => {
-              setOpenSideMenu(!openSideMenu);
-            }}
-          >
-            {openSideMenu ? (
-              <HiOutlineX className="text-2xl" />
-            ) : (
-              <HiOutlineMenu className="text-2xl" />
-            )}
-          </button>
+    <>
+      <div className="bg-white border border-b border-gray-200/50 backdrop-blur-[2px] py-4 px-7 sticky top-0 z-30">
+        <div className="container mx-auto flex items-center justify-between gap-5">
+          <div className="flex gap-5">
+            <button
+              className="block lg:hidden text-black -mt-1"
+              onClick={() => {
+                setOpenSideMenu(!openSideMenu);
+              }}
+            >
+              {openSideMenu ? (
+                <HiOutlineX className="text-2xl" />
+              ) : (
+                <HiOutlineMenu className="text-2xl" />
+              )}
+            </button>
 
-          <Link to="/">
-            <img src="logo.png" alt="logo" className="h-6 md:h-[26px]" />
-          </Link>
-        </div>
-
-        <nav>
-          <ul className="hidden md:flex items-center gap-10">
-            {BLOG_NAVBAR_DATA.map((item, index) => {
-              return item.onlySideMenu ? null : (
-                <Link to={item.path}>
-                  <li className="text-[15px] text-black font-medium listnon relative group cursor-pointer">
-                    {item.label}
-                    <span
-                      className={cn(
-                        `absolute inset-x-0 bottom-0 h-0.5 bg-sky-500 transition-all duration-300 origin-left group-hover:scale-x-100`,
-                        index === 0 ? "scale-x-100" : "scale-x-0"
-                      )}
-                    ></span>
-                  </li>
-                </Link>
-              );
-            })}
-          </ul>
-        </nav>
-
-        <div className="flex items-center gap-6">
-          <button
-            className="hover:text-sky-500 cursor-pointer"
-            onClick={() => {
-              setOpenSerachBar(true);
-            }}
-          >
-            <LuSearch className="text-[22px]" />
-          </button>
-
-          <button className="flex items-center gap-3 bg-linear-to-r from-sky-500 to-cyan-400 text-xs md:text-sm font-semibold text-white px-5 md:px-7 py-2 rounded-full hover:bg-black hover:text-white transition-colors cursor-pointer hover:shadow-2xl hover:shadow-cyan-200">
-            Login/Singup
-          </button>
-        </div>
-
-        {openSideMenu && (
-          <div className="fixed top-[61px] -ml-4 bg-white">
-            <SideMenu activeMenu={activeMenu} isBlogMenu />
+            <Link to="/">
+              <img src="logo.png" alt="logo" className="h-6 md:h-[26px]" />
+            </Link>
           </div>
-        )}
+
+          <nav>
+            <ul className="hidden md:flex items-center gap-10">
+              {BLOG_NAVBAR_DATA.map((item, index) => {
+                return item.onlySideMenu ? null : (
+                  <Link to={item.path}>
+                    <li className="text-[15px] text-black font-medium listnon relative group cursor-pointer">
+                      {item.label}
+                      <span
+                        className={cn(
+                          `absolute inset-x-0 bottom-0 h-0.5 bg-sky-500 transition-all duration-300 origin-left group-hover:scale-x-100`,
+                          index === 0 ? "scale-x-100" : "scale-x-0"
+                        )}
+                      ></span>
+                    </li>
+                  </Link>
+                );
+              })}
+            </ul>
+          </nav>
+
+          <div className="flex items-center gap-6">
+            <button
+              className="hover:text-sky-500 cursor-pointer"
+              onClick={() => {
+                setOpenSerachBar(true);
+              }}
+            >
+              <LuSearch className="text-[22px]" />
+            </button>
+
+            {!user ? (
+              <button
+                onClick={() => {
+                  setOpenAuthForm(true);
+                }}
+                className="flex items-center gap-3 bg-linear-to-r from-sky-500 to-cyan-400 text-xs md:text-sm font-semibold text-white px-5 md:px-7 py-2 rounded-full hover:bg-black hover:text-white transition-colors cursor-pointer hover:shadow-2xl hover:shadow-cyan-200"
+              >
+                Login/Singup
+              </button>
+            ) : (
+              <div className="hidden md:block">
+                <ProfileInfoCard />
+              </div>
+            )}
+          </div>
+
+          {openSideMenu && (
+            <div className="fixed top-[61px] -ml-4 bg-white">
+              <SideMenu activeMenu={activeMenu} isBlogMenu />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+
+      <AuthModel />
+    </>
   );
 };
 
 export default BlogNavbar;
+
+const AuthModel = () => {
+  const { openAuthForm, setOpenAuthForm } = useUserContext();
+  const [currentPage, setCurrentPage] = useState("login");
+  return (
+    <>
+      <Modal
+        isOpen={openAuthForm}
+        onClose={() => setOpenAuthForm(false)}
+        hideHeader
+      >
+        <div className="">
+          {currentPage === "login" && <Login setCurrentPage={setCurrentPage} />}
+          {currentPage === "signup" && (
+            <SignUp setCurrentPage={setCurrentPage} />
+          )}
+        </div>
+      </Modal>
+    </>
+  );
+};

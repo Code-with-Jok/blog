@@ -1,5 +1,4 @@
-import { UserContext } from "@/context/UserContextDefinition";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../Inputs";
 import axiosInstance from "@/utils/axiosInstance";
@@ -8,6 +7,7 @@ import { validateEmail } from "@/utils/helper";
 import { AxiosError } from "axios";
 import ProfilePhotoSelector from "../Inputs/ProfilePhotoSelector";
 import uploadImage from "@/utils/uploadImage";
+import { useUserContext } from "@/context/UserContextDefinition";
 
 type SignUpProps = {
   setCurrentPage: (page: "login" | "signup") => void;
@@ -31,7 +31,7 @@ const SignUp = ({ setCurrentPage }: SignUpProps) => {
     root?: string;
   }>({});
 
-  const { updateUser, setOpenAuthForm } = useContext(UserContext)!;
+  const { updateUser, setOpenAuthForm } = useUserContext();
   const navigate = useNavigate();
 
   const SignUpHandler = async (e: React.FormEvent<HTMLFormElement>) => {

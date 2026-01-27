@@ -1,10 +1,10 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { AxiosError } from "axios";
 import Input from "../Inputs";
 import { validateEmail } from "@/utils/helper";
 import axiosInstance from "@/utils/axiosInstance";
 import { API_PATHS } from "@/utils/apiPaths";
-import { UserContext } from "@/context/UserContextDefinition";
+import { useUserContext } from "@/context/UserContextDefinition";
 import { useNavigate } from "react-router-dom";
 
 type LoginProps = {
@@ -19,7 +19,7 @@ const Login = ({ setCurrentPage }: LoginProps) => {
     root?: string;
   }>({});
 
-  const { updateUser, setOpenAuthForm } = useContext(UserContext)!;
+  const { updateUser, setOpenAuthForm } = useUserContext();
   const navigate = useNavigate();
 
   const handleInputChange = (field: keyof typeof form, value: string) => {

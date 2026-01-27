@@ -7,7 +7,7 @@ type AdminLayoutProps = {
 };
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {
-  const [currentPage, setCurrentPage] = useState("signup");
+  const [currentPage, setCurrentPage] = useState("login");
 
   return (
     <>

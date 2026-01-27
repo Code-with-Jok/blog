@@ -1,5 +1,4 @@
-import { UserContext } from "@/context/UserContextDefinition";
-import { useContext } from "react";
+import { useUserContext } from "@/context/UserContextDefinition";
 import { Navigate, Outlet } from "react-router-dom";
 
 type PrivateRouteProps = {
@@ -7,7 +6,7 @@ type PrivateRouteProps = {
 };
 
 const PrivateRoute = ({ allowedRoles }: PrivateRouteProps) => {
-  const context = useContext(UserContext);
+  const context = useUserContext();
 
   if (!context) {
     return null;
