@@ -1,14 +1,10 @@
 import { cn } from "@/utils";
-import {
-  BLOG_NAVBAR_DATA,
-  SIDE_MENU_DATA,
-  type BlogNavbarData,
-  type SideMenuData,
-} from "@/utils/data";
+import { BLOG_NAVBAR_DATA, SIDE_MENU_DATA } from "@/utils/data";
 import { LuLogOut } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import CharAvatar from "./Cards/CharAvatar";
 import { useUserContext } from "@/context/UserContextDefinition";
+import type { BlogNavbarData, SideMenuData } from "@/types";
 
 interface SideMenuProps {
   activeMenu?: SideMenuData["label"] | BlogNavbarData["label"];

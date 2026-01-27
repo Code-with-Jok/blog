@@ -1,11 +1,11 @@
 import Navbar from "@/components/Navbar";
 import SideMenu from "@/components/SideMenu";
 import { useUserContext } from "@/context/UserContextDefinition";
-import type { BlogNavbarData, SideMenuData } from "@/utils/data";
+import type { BlogNavbarData, SideMenuData } from "@/types";
 
 type DashboardLayoutProps = {
   children: React.ReactNode;
-  activeMenu?: SideMenuData["label"] | BlogNavbarData["label"];
+  activeMenu: SideMenuData["label"] | BlogNavbarData["label"];
 };
 
 const DashboardLayout = ({ children, activeMenu }: DashboardLayoutProps) => {

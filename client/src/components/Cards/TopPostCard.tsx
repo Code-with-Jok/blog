@@ -2,7 +2,7 @@ import { LuHeartHandshake } from "react-icons/lu";
 
 interface TopPostCardProps {
   title: string;
-  convertImageUrl: string;
+  coverImageUrl: string;
   views: number;
   likes: number;
   maxViews: number;
@@ -10,7 +10,7 @@ interface TopPostCardProps {
 
 const TopPostCard = ({
   title,
-  convertImageUrl,
+  coverImageUrl,
   views,
   likes,
   maxViews,
@@ -23,7 +23,7 @@ const TopPostCard = ({
       <div className="flex items-start gap-2">
         <img
           className="size-10 rounded-md object-cover"
-          src={convertImageUrl}
+          src={coverImageUrl}
           alt={title}
         />
 

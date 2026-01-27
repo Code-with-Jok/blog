@@ -1,3 +1,4 @@
+import type { BlogNavbarData, SideMenuData } from "@/types";
 import {
   LuGalleryVerticalEnd,
   LuLayoutDashboard,
@@ -5,22 +6,6 @@ import {
   LuMessageSquareQuote,
   LuTag,
 } from "react-icons/lu";
-import type { IconType } from "react-icons";
-
-export interface SideMenuData {
-  id: string;
-  label: string;
-  icon: IconType;
-  path: string;
-}
-
-export interface BlogNavbarData {
-  id: string;
-  label: string;
-  icon: IconType;
-  path: string;
-  onlySideMenu?: boolean;
-}
 
 export const SIDE_MENU_DATA: SideMenuData[] = [
   {

@@ -1,5 +1,5 @@
-import type { BlogNavbarData, SideMenuData } from "@/utils/data";
 import BlogNavbar from "./BlogNavbar";
+import type { BlogNavbarData, SideMenuData } from "@/types";
 
 type BlogLayoutProps = {
   children: React.ReactNode;

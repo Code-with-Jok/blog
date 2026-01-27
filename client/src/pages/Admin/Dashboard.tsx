@@ -1,5 +1,5 @@
 import DashboardLayout from "@/components/layouts/AdminLayout/DashboardLayout";
-import { useUserContext, type User } from "@/context/UserContextDefinition";
+import { useUserContext } from "@/context/UserContextDefinition";
 
 import { API_PATHS } from "@/utils/apiPaths";
 import axiosInstance from "@/utils/axiosInstance";
@@ -16,40 +16,10 @@ import TagInsights from "@/components/Cards/TagInsights";
 import TopPostCard from "@/components/Cards/TopPostCard";
 import RecentComments from "@/components/Cards/RecentComments";
 
-interface DashboardData {
-  status: {
-    totalPosts: number;
-    publishedPosts: number;
-    totalViews: number;
-    totalLikes: number;
-  };
-  tagUsage: {
-    tag: string;
-    count: number;
-  }[];
-  topPosts: {
-    _id: string;
-    views: number;
-    title: string;
-    convertImageUrl: string;
-    likes: number;
-  }[];
-  recentComments: {
-    _id: string;
-    post: {
-      _id: string;
-      title: string;
-      convertImageUrl: string;
-    };
-    author: User | null;
-    content: string;
-    parentComment: string | null;
-    updatedAt: string;
-  }[];
-}
+import { type DashboardSummary } from "@/types/api";
 
 const Dashboard = () => {
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
+  const [dashboardData, setDashboardData] = useState<DashboardSummary | null>(
     null
   );
   const [maxViews, setMaxViews] = useState(0);
@@ -60,17 +30,14 @@ const Dashboard = () => {
   useEffect(() => {
     const getDashboardData = async () => {
       try {
-        const response = await axiosInstance.get(
+        const response = await axiosInstance.get<DashboardSummary>(
           API_PATHS.DASHBOARD.GET_DASHBOARD_DATA
         );
         setDashboardData(response.data);
 
         const { topPosts } = response.data;
 
-        const totalViews = Math.max(
-          0,
-          ...topPosts.map((post: { views: number }) => post.views)
-        );
+        const totalViews = Math.max(0, ...topPosts.map((post) => post.views));
         setMaxViews(totalViews);
       } catch (error) {
         console.log("Failed to fetch dashboard data", error);
@@ -150,7 +117,7 @@ const Dashboard = () => {
                 <TopPostCard
                   key={post._id}
                   title={post.title}
-                  convertImageUrl={post.convertImageUrl}
+                  coverImageUrl={post.coverImageUrl || ""}
                   views={post.views}
                   likes={post.likes}
                   maxViews={maxViews}

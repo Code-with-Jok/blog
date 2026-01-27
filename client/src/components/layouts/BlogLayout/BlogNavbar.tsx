@@ -1,9 +1,5 @@
 import { cn } from "@/utils";
-import {
-  BLOG_NAVBAR_DATA,
-  type BlogNavbarData,
-  type SideMenuData,
-} from "@/utils/data";
+import { BLOG_NAVBAR_DATA } from "@/utils/data";
 import { useState } from "react";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { LuSearch } from "react-icons/lu";
@@ -14,6 +10,7 @@ import ProfileInfoCard from "@/components/Cards/ProfileInfoCard";
 import Modal from "@/components/Modal";
 import Login from "@/components/Auth/Login";
 import SignUp from "@/components/Auth/SignUp";
+import type { BlogNavbarData, SideMenuData } from "@/types";
 
 type BlogNavbarProps = {
   activeMenu?: SideMenuData["label"] | BlogNavbarData["label"];

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import SideMenu from "./SideMenu";
-import type { BlogNavbarData, SideMenuData } from "@/utils/data";
+import type { BlogNavbarData, SideMenuData } from "@/types";
 
 interface NavbarProps {
   activeMenu?: SideMenuData["label"] | BlogNavbarData["label"];

@@ -63,7 +63,7 @@ const SignUp = ({ setCurrentPage }: SignUpProps) => {
       let profileImageUrl = "";
       if (profilePic) {
         const imageUploadResponse = await uploadImage(profilePic);
-        profileImageUrl = imageUploadResponse.url || "";
+        profileImageUrl = imageUploadResponse.imageUrl || "";
       }
       const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
         name: form.fullName,
