@@ -7,14 +7,14 @@ import {
 } from "react-icons/lu";
 import type { IconType } from "react-icons";
 
-interface SideMenuData {
+export interface SideMenuData {
   id: string;
   label: string;
   icon: IconType;
   path: string;
 }
 
-interface BlogNavbarData {
+export interface BlogNavbarData {
   id: string;
   label: string;
   icon: IconType;

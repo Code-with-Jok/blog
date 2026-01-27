@@ -1,14 +1,19 @@
 import { cn } from "@/utils";
-import { BLOG_NAVBAR_DATA, SIDE_MENU_DATA } from "@/utils/data";
+import {
+  BLOG_NAVBAR_DATA,
+  SIDE_MENU_DATA,
+  type BlogNavbarData,
+  type SideMenuData,
+} from "@/utils/data";
 import { LuLogOut } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
-import CharAvatar from "../Cards/CharAvatar";
+import CharAvatar from "./Cards/CharAvatar";
 import { useUserContext } from "@/context/UserContextDefinition";
 
 interface SideMenuProps {
-  activeMenu?: string;
-  isBlogMenu: boolean;
-  setOpenSideMenu: (value: boolean) => void;
+  activeMenu?: SideMenuData["label"] | BlogNavbarData["label"];
+  isBlogMenu?: boolean;
+  setOpenSideMenu?: (value: boolean) => void;
 }
 
 const SideMenu = ({
@@ -23,7 +28,7 @@ const SideMenu = ({
   const handleLogout = () => {
     clearUser();
     navigate("/");
-    setOpenSideMenu(false);
+    setOpenSideMenu?.(false);
   };
 
   const navigateTo = (router: string) => {
@@ -32,11 +37,11 @@ const SideMenu = ({
       return;
     }
     navigate(router);
-    setOpenSideMenu(false);
+    setOpenSideMenu?.(false);
   };
 
   return (
-    <div className="block lg:hidden w-64 h-[calc(100vh-61px)] bg-white border-r border-gray-200/50 p-5 sticky top-[61px] z-20">
+    <div className="block w-64 h-[calc(100vh-61px)] bg-white border-r border-gray-200/50 p-5 sticky top-[61px] z-20">
       {user && (
         <div className="flex items-center flex-col justify-center gap-1 mt-3 mb-7">
           {user?.profileImageUrl ? (

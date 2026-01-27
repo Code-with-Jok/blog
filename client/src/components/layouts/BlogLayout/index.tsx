@@ -1,8 +1,9 @@
+import type { BlogNavbarData, SideMenuData } from "@/utils/data";
 import BlogNavbar from "./BlogNavbar";
 
 type BlogLayoutProps = {
   children: React.ReactNode;
-  activeMenu?: string;
+  activeMenu?: SideMenuData["label"] | BlogNavbarData["label"];
 };
 
 const BlogLayout = ({ children, activeMenu }: BlogLayoutProps) => {

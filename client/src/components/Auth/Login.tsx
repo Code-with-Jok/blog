@@ -53,13 +53,13 @@ const Login = ({ setCurrentPage }: LoginProps) => {
         password: form.password,
       });
 
-      const { token } = response.data;
+      const { token, role } = response.data;
       if (token) {
         localStorage.setItem("token", token);
         updateUser(response.data);
 
         // Redirect to dashboard
-        if (response.data.role === "admin") {
+        if (role === "admin") {
           setOpenAuthForm(false);
           navigate("/admin/dashboard");
         } else {

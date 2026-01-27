@@ -4,6 +4,7 @@ import BlogLandingPage from "./pages/Blog/BlogLandingPage";
 import PrivateRoute from "./routes/PrivateRoute";
 import UserProvider from "@/context/userContext";
 import AdminLogin from "./pages/Admin/AdminLogin";
+import Dashboard from "./pages/Admin/Dashboard";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
 
           {/* Admin Routes */}
           <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
-            <Route path="/admin/dashboard" element={<h1>Admin</h1>} />
+            <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/posts" element={<h1>Posts</h1>} />
             <Route path="/admin/create-post" element={<h1>Create Post</h1>} />
             <Route

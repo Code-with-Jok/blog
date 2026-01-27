@@ -82,9 +82,10 @@ const SignUp = ({ setCurrentPage }: SignUpProps) => {
         if (role === "admin") {
           setOpenAuthForm(false);
           navigate("/admin/dashboard");
+        } else {
+          setOpenAuthForm(false);
+          navigate("/");
         }
-        setOpenAuthForm(false);
-        navigate("/");
       }
       setErrors({});
     } catch (error) {
