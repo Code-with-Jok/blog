@@ -3,31 +3,36 @@ import { BLOG_NAVBAR_DATA, SIDE_MENU_DATA } from "@/utils/data";
 import { LuLogOut } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import CharAvatar from "../Cards/CharAvatar";
+import { useUserContext } from "@/context/UserContextDefinition";
 
 interface SideMenuProps {
   activeMenu?: string;
   isBlogMenu: boolean;
+  setOpenSideMenu: (value: boolean) => void;
 }
 
-const SideMenu = ({ activeMenu, isBlogMenu }: SideMenuProps) => {
-  const user = {
-    name: "Lutfi Hafiz",
-    email: "lutfihafiz@gmail.com",
-    profileImageUrl: "",
-  };
+const SideMenu = ({
+  activeMenu,
+  isBlogMenu,
+  setOpenSideMenu,
+}: SideMenuProps) => {
+  const { user, clearUser } = useUserContext();
+
   const navigate = useNavigate();
 
-  const handelLogout = () => {
-    localStorage.clear();
+  const handleLogout = () => {
+    clearUser();
     navigate("/");
+    setOpenSideMenu(false);
   };
 
   const navigateTo = (router: string) => {
     if (router === "logout") {
-      handelLogout();
+      handleLogout();
       return;
     }
     navigate(router);
+    setOpenSideMenu(false);
   };
 
   return (
@@ -38,7 +43,7 @@ const SideMenu = ({ activeMenu, isBlogMenu }: SideMenuProps) => {
             <img
               src={user?.profileImageUrl}
               alt="Profile Image"
-              className="size-20 bg-slate-400 rounded-full"
+              className="size-20 bg-slate-400 rounded-full object-cover"
             />
           ) : (
             <CharAvatar fullname={user?.name ?? ""} />
@@ -76,7 +81,7 @@ const SideMenu = ({ activeMenu, isBlogMenu }: SideMenuProps) => {
           className={cn(
             `w-full flex items-center gap-4 text-[15px] py-3 px-6 rounded-lg mb-3 cursor-pointer`
           )}
-          onClick={() => handelLogout()}
+          onClick={() => handleLogout()}
         >
           <LuLogOut className="text-xl" />
           Logout

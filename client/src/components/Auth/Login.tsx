@@ -128,7 +128,11 @@ const Login = ({ setCurrentPage }: LoginProps) => {
       </div>
 
       <div className="hidden md:block">
-        <img src="./images/login.png" className="h-[400px]" alt="login" />
+        <img
+          src="https://wallpapers.com/images/hd/tengen-toppa-gurren-lagann-simon-qo1ada0ql4b9htsr.jpg"
+          className="h-[400px] w-[33vw] object-cover"
+          alt="login"
+        />
       </div>
     </div>
   );

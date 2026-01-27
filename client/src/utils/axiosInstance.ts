@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "./apiPaths";
+import avatar from "@assets/avatar.gif";
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -25,6 +26,9 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => {
+    if (response.data.profileImageUrl === "") {
+      response.data.profileImageUrl = avatar;
+    }
     return response;
   },
   (error) => {

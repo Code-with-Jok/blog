@@ -169,9 +169,9 @@ const SignUp = ({ setCurrentPage }: SignUpProps) => {
       </div>
       <div className="hidden md:block">
         <img
-          src="./images/login.png"
-          className="md:h-[520px] h-fit w-[33vw]"
-          alt="login"
+          src="https://c4.wallpaperflare.com/wallpaper/719/538/514/tengen-toppa-gurren-lagann-kamina-simon-wallpaper-preview.jpg"
+          className="md:h-[520px] h-fit w-[33vw] object-cover"
+          alt="SignUp"
         />
       </div>
     </div>

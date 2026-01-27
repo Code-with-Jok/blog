@@ -48,7 +48,7 @@ const BlogNavbar = ({ activeMenu }: BlogNavbarProps) => {
             <ul className="hidden md:flex items-center gap-10">
               {BLOG_NAVBAR_DATA.map((item, index) => {
                 return item.onlySideMenu ? null : (
-                  <Link to={item.path}>
+                  <Link key={item.id} to={item.path}>
                     <li className="text-[15px] text-black font-medium listnon relative group cursor-pointer">
                       {item.label}
                       <span
@@ -92,7 +92,11 @@ const BlogNavbar = ({ activeMenu }: BlogNavbarProps) => {
 
           {openSideMenu && (
             <div className="fixed top-[61px] -ml-4 bg-white">
-              <SideMenu activeMenu={activeMenu} isBlogMenu />
+              <SideMenu
+                activeMenu={activeMenu}
+                isBlogMenu
+                setOpenSideMenu={setOpenSideMenu}
+              />
             </div>
           )}
         </div>
