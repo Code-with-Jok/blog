@@ -1,5 +1,5 @@
-import { cn } from "@/utlis";
-import { BLOG_NAVBAR_DATA } from "@/utlis/data";
+import { cn } from "@/utils";
+import { BLOG_NAVBAR_DATA } from "@/utils/data";
 import { useState } from "react";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { LuSearch } from "react-icons/lu";

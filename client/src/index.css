@@ -53,12 +53,18 @@
   background-color: #d0f4ff !important;
 }
 
+input:autofill,
+select:autofill,
+textarea:autofill {
+  background-color: transparent !important;
+}
+
 @utility input-box {
   @apply w-full flex justify-between gap-3 text-sm text-black bg-gray-50/50 rounded px-4 py-3 mb-4 mt-3 border border-gray-100 outline-none focus:border-sky-300;
 }
 
 @utility btn-primary {
-  @apply w-full flex items-center justify-center gap-3 text-sm font-semibold text-white bg-linear-to-r from-sky-50 to-cyan-400 p-2.5 rounded-md my-1 transition-all hover:scale-[1.01] hover:text-white cursor-pointer;
+  @apply w-full flex items-center justify-center gap-3 text-sm font-semibold text-white bg-linear-to-r from-sky-500 to-cyan-400 p-2.5 rounded-md my-1 transition-all hover:scale-[1.01] hover:text-white cursor-pointer;
 }
 @utility btn-small {
   @apply flex items-center justify-center gap-3 bg-linear-to-r from-sky-500 to-cyan-400 text-sm font-semibold text-white px-7 py-2 rounded-lg hover:bg-black hover:text-white transition-colors cursor-pointer hover:shadow-2xl hover:shadow-sky-200;

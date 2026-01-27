@@ -1,5 +1,5 @@
-import { cn } from "@/utlis";
-import { getInitials } from "@/utlis/helper";
+import { cn } from "@/utils";
+import { getInitials } from "@/utils/helper";
 
 interface CharAvatarProps {
   fullname: string;

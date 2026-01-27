@@ -2,10 +2,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import BlogLandingPage from "./pages/Blog/BlogLandingPage";
 import PrivateRoute from "./routes/PrivateRoute";
+import UserProvider from "@/context/userContext";
+import AdminLogin from "./pages/Admin/AdminLogin";
 
 function App() {
   return (
-    <div>
+    <UserProvider>
       <Router>
         <Routes>
           {/* Default Routes */}
@@ -15,7 +17,7 @@ function App() {
           <Route path="/search" element={<>search</>} />
 
           {/* Admin Routes */}
-          <Route element={<PrivateRoute allowedRoles="admin" />}>
+          <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
             <Route path="/admin/dashboard" element={<h1>Admin</h1>} />
             <Route path="/admin/posts" element={<h1>Posts</h1>} />
             <Route path="/admin/create-post" element={<h1>Create Post</h1>} />
@@ -26,7 +28,7 @@ function App() {
             <Route path="/admin/comments" element={<h1>Comments</h1>} />
           </Route>
 
-          <Route path="/admin-login" element={<h1>Admin Login</h1>} />
+          <Route path="/admin-login" element={<AdminLogin />} />
         </Routes>
       </Router>
 
@@ -38,7 +40,7 @@ function App() {
           },
         }}
       />
-    </div>
+    </UserProvider>
   );
 }
 
