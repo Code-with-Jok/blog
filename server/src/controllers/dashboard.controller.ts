@@ -38,7 +38,7 @@ export const getDashboardSummary = async (req: Request, res: Response) => {
 
     // top 5 posts by views
     const topPosts = await BlogPost.find({ isDraft: false })
-      .select('title author convertImageUrl views likes comments')
+      .select('title author coverImageUrl views likes comments')
       .sort({ views: -1 })
       .limit(5)
 
