@@ -87,11 +87,11 @@ const TagInsights = ({ tagUsage }: TagInsightsProps) => {
 
   return (
     <div className="grid grid-cols-12 mt-4">
-      <div className="col-span-12 md:col-span-7">
+      <div className="col-span-12 xl:col-span-7">
         <CustomPieChart colors={COLORS} data={processedData} />
       </div>
 
-      <div className="col-span-12 md:col-span-5 mt-5 md:mt-0">
+      <div className="col-span-12 xl:col-span-5 mt-5 xl:mt-0">
         <TagCloud
           tags={
             tagUsage.slice(0, 15).map((item) => ({

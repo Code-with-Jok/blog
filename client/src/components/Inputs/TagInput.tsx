@@ -1,4 +1,4 @@
-import { useState, KeyboardEvent } from "react";
+import { useState, type KeyboardEvent } from "react";
 import { LuTrash2 } from "react-icons/lu";
 
 interface TagInputProps {

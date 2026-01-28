@@ -25,7 +25,7 @@ const DashboardSummaryCard = ({
         {icon}
       </div>
 
-      <p className="text-xs md:text-sm text-gray-500">
+      <p className="text-xs md:text-sm text-gray-500 flex items-center gap-1">
         <span className="text-sm md:text-[15px] font-semibold text-black">
           {value}
         </span>

@@ -1,98 +1,35 @@
 import DashboardLayout from "@/components/layouts/AdminLayout/DashboardLayout";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Modal from "@/components/Modal";
 import GeneratedBlogPostForm from "./GeneratedBlogPostForm";
 import IdeaSidebar from "./components/IdeaSidebar";
-import EditorMainForm, { type PostData } from "./components/EditorMainForm";
-import { aiService, type BlogPostIdea } from "@/services/aiService";
+import EditorMainForm from "./components/EditorMainForm";
+import DeleteAlertContent from "@/components/DeleteAlertContent";
+import { useBlogPostEditor } from "@/hooks/useBlogPostEditor";
 
 interface BlogPostEditorProps {
   isEdit?: boolean;
 }
 
-const initialPostData: PostData = {
-  id: "",
-  title: "",
-  content: "",
-  coverImage: null,
-  coverPreview: null,
-  tags: [],
-  isDraft: false,
-  generatedByAI: false,
-};
-
 const BlogPostEditor = ({ isEdit = false }: BlogPostEditorProps) => {
-  const navigate = useNavigate();
   const { postSlug = "" } = useParams();
 
-  const [postData, setPostData] = useState<PostData>(initialPostData);
-
-  // States for UI control
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [loadingIdeas, setLoadingIdeas] = useState(false);
-  const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
-
-  const [postIdeas, setPostIdeas] = useState<BlogPostIdea[]>([]);
-  const [openBlogPostGenForm, setOpenBlogPostGenForm] = useState<{
-    open: boolean;
-    data: BlogPostIdea | null;
-  }>({
-    open: false,
-    data: null,
-  });
-
-  const handleValueChange = <K extends keyof PostData>(
-    key: K,
-    value: PostData[K]
-  ) => {
-    setPostData((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
-
-  // Generate Blog Post Ideas Using AI
-  const generateBlogPostIdeas = async () => {
-    setLoadingIdeas(true);
-    try {
-      const ideas = await aiService.generateIdeas("React JS, React Native");
-      if (ideas && ideas.length > 0) {
-        setPostIdeas(ideas);
-        setOpenBlogPostGenForm({
-          open: true,
-          data: ideas[0],
-        });
-      }
-    } catch (error) {
-      console.error("Error generating blog post ideas:", error);
-    } finally {
-      setLoadingIdeas(false);
-    }
-  };
-
-  // Handle Blog Post Publish
-  const handleBlogPostPublish = async (isDraft: boolean) => {
-    // TODO: Implement publish logic
-    console.log("Publishing", isDraft, postData);
-  };
-
-  // Get Post Data by Slug
-  const getPostDataBySlug = async () => {
-    // TODO: Fetch post data
-  };
-
-  // Handle Blog Post Delete
-  const handleBlogPostDelete = async () => {
-    // TODO: Implement delete
-  };
-
-  useEffect(() => {
-    if (isEdit) {
-      getPostDataBySlug();
-    }
-  }, [isEdit]);
+  const {
+    postData,
+    setPostData,
+    error,
+    loading,
+    loadingIdeas,
+    openDeleteAlert,
+    setOpenDeleteAlert,
+    postIdeas,
+    openBlogPostGenForm,
+    setOpenBlogPostGenForm,
+    handleValueChange,
+    handleBlogPostPublish,
+    handleBlogPostDelete,
+    generateBlogPostIdeas,
+  } = useBlogPostEditor({ isEdit, postSlug });
 
   return (
     <DashboardLayout activeMenu="Blog Posts">
@@ -145,6 +82,20 @@ const BlogPostEditor = ({ isEdit = false }: BlogPostEditorProps) => {
             setOpenBlogPostGenForm({ open: false, data: null })
           }
         />
+      </Modal>
+
+      <Modal
+        isOpen={openDeleteAlert}
+        onClose={() => setOpenDeleteAlert(false)}
+        title="Delete Post"
+        hideHeader
+      >
+        <div className="w-[40vw]">
+          <DeleteAlertContent
+            content="Are you sure you want to delete this post?"
+            onDelete={handleBlogPostDelete}
+          />
+        </div>
       </Modal>
     </DashboardLayout>
   );

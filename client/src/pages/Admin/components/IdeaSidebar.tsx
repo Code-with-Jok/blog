@@ -18,7 +18,7 @@ const IdeaSidebar = ({
 }: IdeaSidebarProps) => {
   return (
     <div className="form-card p-0 col-span-12 md:col-span-4 bg-white rounded-lg shadow-sm border border-slate-200">
-      <div className="flex items-center justify-between p-6">
+      <div className="flex items-center justify-between p-6 flex-wrap gap-3">
         <h4 className="text-sm md:text-base font-medium inline-flex items-center gap-2">
           <span className="text-sky-600">
             <LuSparkle />

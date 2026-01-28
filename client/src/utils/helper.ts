@@ -15,3 +15,16 @@ export const validateEmail = (email: string) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
+
+export const getToastMessage = (type: "draft" | "updated" | "published") => {
+  switch (type) {
+    case "draft":
+      return "Draft saved successfully";
+    case "updated":
+      return "Post updated successfully";
+    case "published":
+      return "Post published successfully";
+    default:
+      return "Something went wrong";
+  }
+};

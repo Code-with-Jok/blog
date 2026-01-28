@@ -27,7 +27,7 @@ const BlogPostIdeaCard = ({
 
       <p className="">{description}</p>
 
-      <div className="flex items-center gap-2.5 mt-2">
+      <div className="flex flex-wrap items-center gap-2.5 mt-2">
         {tags.map((tag, index) => (
           <div
             key={index}

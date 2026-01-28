@@ -28,8 +28,8 @@ const CustomPieChart = ({ colors, data }: CustomPieChartProps) => {
           nameKey="name"
           cx="50%"
           cy="50%"
-          outerRadius={130}
-          innerRadius={100}
+          outerRadius="75%"
+          innerRadius="60%"
           labelLine={false}
         >
           {data.map((entry, index) => (
