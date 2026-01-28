@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import CharAvatar from "./Cards/CharAvatar";
 import { useUserContext } from "@/context/UserContextDefinition";
 import type { BlogNavbarData, SideMenuData } from "@/types";
+import ImagePreview from "./ImagePreview";
 
 interface SideMenuProps {
   activeMenu?: SideMenuData["label"] | BlogNavbarData["label"];
@@ -41,10 +42,10 @@ const SideMenu = ({
       {user && (
         <div className="flex items-center flex-col justify-center gap-1 mt-3 mb-7">
           {user?.profileImageUrl ? (
-            <img
+            <ImagePreview
               src={user?.profileImageUrl}
               alt="Profile Image"
-              className="size-20 bg-slate-400 rounded-full object-cover"
+              className="size-20 bg-slate-400  object-cover"
             />
           ) : (
             <CharAvatar fullname={user?.name ?? ""} />

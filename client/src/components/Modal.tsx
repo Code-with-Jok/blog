@@ -1,3 +1,5 @@
+import { createPortal } from "react-dom";
+
 type ModalProps = {
   isOpen: boolean;
   title?: string;
@@ -15,8 +17,11 @@ const Modal = ({
 }: ModalProps) => {
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center size-full bg-black/40">
+  return createPortal(
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center size-full bg-black/40"
+      onClick={(e) => e.stopPropagation()}
+    >
       <div className="relative flex flex-col bg-white shadow-lg rounded-lg overflow-hidden">
         {/* Modal header */}
         {!hideHeader && (
@@ -26,7 +31,10 @@ const Modal = ({
         )}
 
         <button
-          onClick={onClose}
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
           type="button"
           className="text-gray-400 bg-transparent hover:bg-sky-100 hover:text-gray-900 rounded-lg text-sm size-8 flex justify-center items-center absolute top-3.5 right-3.5 cursor-pointer"
         >
@@ -49,7 +57,8 @@ const Modal = ({
 
         <div className="flex-1">{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

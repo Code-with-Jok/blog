@@ -8,18 +8,6 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [openAuthForm, setOpenAuthForm] = useState<boolean>(false);
 
-  const fetchUserProfile = async () => {
-    try {
-      const response = await axiosInstance.get(API_PATHS.AUTH.GET_PROFILE);
-
-      setUser(response.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const updateUser = (userData: User) => {
     setUser(userData);
     if (userData.token) {
@@ -44,8 +32,20 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axiosInstance.get(API_PATHS.AUTH.GET_PROFILE);
+
+        setUser(response.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchUserProfile();
-  }, []);
+  }, [user]);
 
   return (
     <UserContext.Provider

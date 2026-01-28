@@ -1,4 +1,5 @@
 import { LuHeartHandshake } from "react-icons/lu";
+import ImagePreview from "../ImagePreview";
 
 interface TopPostCardProps {
   title: string;
@@ -21,7 +22,9 @@ const TopPostCard = ({
   return (
     <div className="bg-white p-4 flex flex-col gap-3 border-b border-gray-100">
       <div className="flex items-start gap-2">
-        <img
+        <ImagePreview
+          overlayClassName="size-10"
+          wrapperClassName="rounded-md"
           className="size-10 rounded-md object-cover"
           src={coverImageUrl}
           alt={title}
@@ -36,6 +39,10 @@ const TopPostCard = ({
         <div
           className="h-full bg-linear-to-r from-sky-500 to-cyan-400 transition-all duration-300 ease-in-out rounded-full"
           style={{ width: `${viewPercentage}%` }}
+        />
+        <div
+          className="h-full bg-red-500 transition-all duration-300 ease-in-out rounded-full"
+          style={{ width: `${likePercentage}%` }}
         />
       </div>
 

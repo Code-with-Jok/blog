@@ -7,6 +7,7 @@ import AdminLogin from "./pages/Admin/AdminLogin";
 import Dashboard from "./pages/Admin/Dashboard";
 import BlogPosts from "./pages/Admin/BlogPosts";
 import BlogPostEditor from "./pages/Admin/BlogPostEditor";
+import Comments from "./pages/Admin/Comments";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
               path="/admin/edit/:postSlug"
               element={<BlogPostEditor isEdit={true} />}
             />
-            <Route path="/admin/comments" element={<h1>Comments</h1>} />
+            <Route path="/admin/comments" element={<Comments />} />
           </Route>
 
           <Route path="/admin-login" element={<AdminLogin />} />

@@ -18,7 +18,7 @@ type BlogNavbarProps = {
 
 const BlogNavbar = ({ activeMenu }: BlogNavbarProps) => {
   const [openSideMenu, setOpenSideMenu] = useState(false);
-  const [openSerachBar, setOpenSerachBar] = useState(false);
+  // const [openSerachBar, setOpenSerachBar] = useState(false); // Unused
 
   const { user, setOpenAuthForm } = useUserContext();
 
@@ -69,7 +69,7 @@ const BlogNavbar = ({ activeMenu }: BlogNavbarProps) => {
             <button
               className="hover:text-sky-500 cursor-pointer"
               onClick={() => {
-                setOpenSerachBar(true);
+                // setOpenSerachBar(true);
               }}
             >
               <LuSearch className="text-[22px]" />

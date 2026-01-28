@@ -1,6 +1,7 @@
 import { type Comment, type BlogPost } from "@/types/api";
 import moment from "moment";
 import { LuDot } from "react-icons/lu";
+import ImagePreview from "../ImagePreview";
 
 interface RecentCommentsProps {
   comments: Comment[];
@@ -21,10 +22,12 @@ const RecentComments = ({ comments }: RecentCommentsProps) => {
               key={comment._id}
               className="flex gap-4 border-b border-gray-100 pb-4 last:border-none"
             >
-              <img
+              <ImagePreview
+                overlayClassName="size-10"
+                wrapperClassName="rounded-full"
+                className="size-10 rounded-full object-cover"
                 src={comment.author?.profileImageUrl ?? ""}
                 alt={comment.author?.name ?? "author"}
-                className="size-10 object-cover rounded-full"
               />
 
               <div className="flex-1">
@@ -47,10 +50,12 @@ const RecentComments = ({ comments }: RecentCommentsProps) => {
                   </div>
                 </div>
                 <div className="mt-2 flex items-center gap-3">
-                  <img
+                  <ImagePreview
+                    overlayClassName="size-9"
+                    wrapperClassName="rounded-lg"
+                    className="size-9 object-cover rounded-lg"
                     src={post?.coverImageUrl ?? ""}
                     alt={post?.title ?? "post"}
-                    className="size-9 object-cover rounded-lg"
                   />
 
                   <p className="font-medium text-[13px] text-gray-500">

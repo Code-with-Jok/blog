@@ -5,14 +5,9 @@ import {
   type SetStateAction,
 } from "react";
 
-export interface User {
-  token: string;
-  role: "admin" | "member";
-  name: string;
-  email: string;
-  profileImageUrl: string;
-  bio: string;
-}
+import type { AuthResponse } from "@/types/api";
+
+export type User = AuthResponse;
 
 export interface UserContextType {
   user: User | null;

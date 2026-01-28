@@ -1,5 +1,6 @@
 import { cn } from "@/utils";
 import { LuEye, LuHeartHandshake, LuTrash2 } from "react-icons/lu";
+import ImagePreview from "../ImagePreview";
 
 interface BlogPostSummaryCardProps {
   title: string;
@@ -27,7 +28,12 @@ const BlogPostSummaryCard = ({
       className="flex items-center gap-4 bg-white p-3 mb-5 rounded-lg cursor-pointer group"
       onClick={onClick}
     >
-      <img src={imgUrl} alt={title} className="size-16 rounded-lg" />
+      <ImagePreview
+        src={imgUrl}
+        alt={title}
+        className="size-16 object-cover"
+        wrapperClassName="rounded-lg shrink-0"
+      />
 
       <div className="flex-1">
         <h3 className="text-[13px] md:text-[15px] text-black font-medium">

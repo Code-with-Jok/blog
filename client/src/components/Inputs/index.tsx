@@ -24,7 +24,7 @@ const Input = ({
 
   return (
     <div>
-      <label className="text-[13px] text-slate-800" htmlFor={label}>
+      <label className="text-[13px] text-slate-800 font-medium" htmlFor={label}>
         {label}
       </label>
 

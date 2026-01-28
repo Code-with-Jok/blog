@@ -6,7 +6,7 @@ import Tabs from "@/components/Tabs";
 import { API_PATHS } from "@/utils/apiPaths";
 import axiosInstance from "@/utils/axiosInstance";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import { LuGalleryVerticalEnd, LuLoaderCircle, LuPlus } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
@@ -36,57 +36,66 @@ const BlogPosts = () => {
   });
 
   // fetch all blog posts
-  const getAllPosts = async (pageNumber = 1) => {
-    try {
-      setIsLoading(true);
-      const response = await axiosInstance.get<PaginatedResponse<BlogPost>>(
-        API_PATHS.POSTS.GET_ALL,
-        {
-          params: {
-            status: filterStatus.toLowerCase(),
-            page: pageNumber,
+  const getAllPosts = useCallback(
+    async (pageNumber = 1) => {
+      try {
+        setIsLoading(true);
+        const response = await axiosInstance.get<PaginatedResponse<BlogPost>>(
+          API_PATHS.POSTS.GET_ALL,
+          {
+            params: {
+              status: filterStatus.toLowerCase(),
+              page: pageNumber,
+            },
+          }
+        );
+
+        const { posts, totalPages, counts } = response.data;
+
+        setBlogPostList((prev) =>
+          pageNumber === 1 ? posts : [...prev, ...posts]
+        );
+
+        setTotalPages(totalPages);
+        setPage(pageNumber);
+
+        // Map status summary data
+        const statusSummary = counts || {
+          all: 0,
+          published: 0,
+          draft: 0,
+        };
+
+        const statusArray = [
+          {
+            label: "ALL",
+            count: statusSummary.all,
+            pages: totalPages, // Add if needed or just count
           },
-        }
-      );
+          {
+            label: "Published",
+            count: statusSummary.published,
+          },
+          {
+            label: "Draft",
+            count: statusSummary.draft,
+          },
+        ];
 
-      const { posts, totalPages, counts } = response.data;
-
-      setBlogPostList((prev) =>
-        pageNumber === 1 ? posts : [...prev, ...posts]
-      );
-
-      setTotalPages(totalPages);
-      setPage(pageNumber);
-
-      // Map status summary data
-      const statusSummary = counts || {
-        all: 0,
-        published: 0,
-        draft: 0,
-      };
-
-      const statusArray = [
-        {
-          label: "ALL",
-          count: statusSummary.all,
-        },
-        {
-          label: "Published",
-          count: statusSummary.published,
-        },
-        {
-          label: "Draft",
-          count: statusSummary.draft,
-        },
-      ];
-
-      setTabs(statusArray);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        // Fix tabs mapping if types don't match exactly or logic changed, ensuring safe types
+        const mappedTabs = statusArray.map((s) => ({
+          label: s.label,
+          count: s.count,
+        }));
+        setTabs(mappedTabs);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [filterStatus]
+  );
 
   // delete blog post
   const deletePost = async (postId: string) => {
@@ -115,7 +124,7 @@ const BlogPosts = () => {
   useEffect(() => {
     getAllPosts(1);
     return () => {};
-  }, [filterStatus]);
+  }, [getAllPosts]);
 
   return (
     <DashboardLayout activeMenu="Blog Posts">
