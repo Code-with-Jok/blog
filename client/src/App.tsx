@@ -6,6 +6,7 @@ import UserProvider from "@/context/userContext";
 import AdminLogin from "./pages/Admin/AdminLogin";
 import Dashboard from "./pages/Admin/Dashboard";
 import BlogPosts from "./pages/Admin/BlogPosts";
+import BlogPostEditor from "./pages/Admin/BlogPostEditor";
 
 function App() {
   return (
@@ -22,10 +23,13 @@ function App() {
           <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/posts" element={<BlogPosts />} />
-            <Route path="/admin/create-post" element={<h1>Create Post</h1>} />
             <Route
-              path="/admin/edit-post/:postSlug"
-              element={<h1>Edit Post</h1>}
+              path="/admin/create-post"
+              element={<BlogPostEditor isEdit={false} />}
+            />
+            <Route
+              path="/admin/edit/:postSlug"
+              element={<BlogPostEditor isEdit={true} />}
             />
             <Route path="/admin/comments" element={<h1>Comments</h1>} />
           </Route>
