@@ -1,31 +1,29 @@
-import BlogPostSummaryCard from "@/components/Cards/BlogPostSummaryCard";
-import DeleteAlertContent from "@/components/DeleteAlertContent";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import DashboardLayout from "@/components/layouts/AdminLayout/DashboardLayout";
 import Modal from "@/components/Modal";
 import Tabs from "@/components/Tabs";
-import { API_PATHS } from "@/utils/apiPaths";
-import axiosInstance from "@/utils/axiosInstance";
-import moment from "moment";
-import { useEffect, useState, useCallback } from "react";
-import toast from "react-hot-toast";
+import BlogPostSummaryCard from "@/components/Cards/BlogPostSummaryCard";
+import DeleteAlertContent from "@/components/DeleteAlertContent";
 import { LuGalleryVerticalEnd, LuLoaderCircle, LuPlus } from "react-icons/lu";
-import { useNavigate } from "react-router-dom";
-import { type BlogPost, type PaginatedResponse } from "@/types/api";
-
-export interface Tab {
-  label: string;
-  count: number;
-}
+import moment from "moment";
+import { type BlogPost } from "@/types/api"; // Keep type import if needed for delete alert
+import { useAdminBlogPosts } from "@/hooks/useAdminBlogPosts";
 
 const BlogPosts = () => {
   const navigate = useNavigate();
 
-  const [tabs, setTabs] = useState<Tab[]>([]);
-  const [filterStatus, setFilterStatus] = useState("ALL");
-  const [blogPostList, setBlogPostList] = useState<BlogPost[]>([]);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const {
+    tabs,
+    filterStatus,
+    setFilterStatus,
+    blogPostList,
+    page,
+    totalPages,
+    isLoading,
+    deletePost,
+    loadMorePosts,
+  } = useAdminBlogPosts();
 
   const [openDeleteAlert, setOpenDeleteAlert] = useState<{
     open: boolean;
@@ -35,96 +33,12 @@ const BlogPosts = () => {
     data: null,
   });
 
-  // fetch all blog posts
-  const getAllPosts = useCallback(
-    async (pageNumber = 1) => {
-      try {
-        setIsLoading(true);
-        const response = await axiosInstance.get<PaginatedResponse<BlogPost>>(
-          API_PATHS.POSTS.GET_ALL,
-          {
-            params: {
-              status: filterStatus.toLowerCase(),
-              page: pageNumber,
-            },
-          }
-        );
-
-        const { posts, totalPages, counts } = response.data;
-
-        setBlogPostList((prev) =>
-          pageNumber === 1 ? posts : [...prev, ...posts]
-        );
-
-        setTotalPages(totalPages);
-        setPage(pageNumber);
-
-        // Map status summary data
-        const statusSummary = counts || {
-          all: 0,
-          published: 0,
-          draft: 0,
-        };
-
-        const statusArray = [
-          {
-            label: "ALL",
-            count: statusSummary.all,
-            pages: totalPages, // Add if needed or just count
-          },
-          {
-            label: "Published",
-            count: statusSummary.published,
-          },
-          {
-            label: "Draft",
-            count: statusSummary.draft,
-          },
-        ];
-
-        // Fix tabs mapping if types don't match exactly or logic changed, ensuring safe types
-        const mappedTabs = statusArray.map((s) => ({
-          label: s.label,
-          count: s.count,
-        }));
-        setTabs(mappedTabs);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [filterStatus]
-  );
-
-  // delete blog post
-  const deletePost = async (postId: string) => {
-    try {
-      setIsLoading(true);
-      await axiosInstance.delete(API_PATHS.POSTS.DELETE(postId));
-      toast.success("Post deleted successfully");
-
+  const handleDeleteSubmition = async () => {
+    if (openDeleteAlert.data) {
+      await deletePost(openDeleteAlert.data._id);
       setOpenDeleteAlert({ open: false, data: null });
-
-      getAllPosts(1);
-    } catch (error) {
-      console.log("Error deleting post", error);
-    } finally {
-      setIsLoading(false);
     }
   };
-
-  // load more posts
-  const loadMorePosts = async () => {
-    if (page < totalPages) {
-      getAllPosts(page + 1);
-    }
-  };
-
-  useEffect(() => {
-    getAllPosts(1);
-    return () => {};
-  }, [getAllPosts]);
 
   return (
     <DashboardLayout activeMenu="Blog Posts">
@@ -197,9 +111,7 @@ const BlogPosts = () => {
       >
         <div className="w-[90vw] md:w-[30vw]">
           <DeleteAlertContent
-            onDelete={() =>
-              openDeleteAlert.data && deletePost(openDeleteAlert.data._id)
-            }
+            onDelete={handleDeleteSubmition}
             content="Are you sure you want to delete this post?"
           />
         </div>

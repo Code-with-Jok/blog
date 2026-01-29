@@ -1,63 +1,20 @@
 import BlogLayout from "@/components/layouts/BlogLayout";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axiosInstance from "@/utils/axiosInstance";
-import { API_PATHS } from "@/utils/apiPaths";
 import { LuGalleryVerticalEnd, LuLoaderCircle } from "react-icons/lu";
 import moment from "moment";
 import FeaturedBlogPost from "./components/FeaturedBlogPost";
 import BlogPostCard from "./components/BlogPostCard";
 import TrendingPostsSection from "./components/TrendingPostsSection";
-import type { BlogPost } from "@/types/api";
+import { useBlogPosts } from "@/hooks/useBlogPosts";
 
 const BlogLandingPage = () => {
   const navigate = useNavigate();
 
-  const [blogPostList, setBlogPostList] = useState<BlogPost[]>([]);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [loading, setLoading] = useState(false);
-
-  // get blog posts
-  const getAllPosts = async (pageNumber: number) => {
-    try {
-      setLoading(true);
-      const response = await axiosInstance.get(API_PATHS.POSTS.GET_ALL, {
-        params: {
-          status: "published",
-          page: pageNumber,
-        },
-      });
-
-      const { posts, totalPages } = response.data;
-      setBlogPostList((prev) =>
-        pageNumber === 1 ? posts : [...prev, ...posts]
-      );
-      setPage(pageNumber);
-      setTotalPages(totalPages);
-    } catch (error) {
-      console.log("Error fetching posts:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // load more posts
-  const handleLoadMore = () => {
-    if (page < totalPages) {
-      setPage(page + 1);
-      getAllPosts(page + 1);
-    }
-  };
+  const { blogPostList, page, totalPages, loading, loadMore } = useBlogPosts();
 
   const navigateToPost = (slug: string) => {
     navigate(`/post/${slug}`);
   };
-
-  // use effect to get all posts
-  useEffect(() => {
-    getAllPosts(1);
-  }, []);
 
   return (
     <BlogLayout>
@@ -112,7 +69,7 @@ const BlogLandingPage = () => {
             {page < totalPages && (
               <div className="flex items-center justify-center mt-12">
                 <button
-                  onClick={handleLoadMore}
+                  onClick={loadMore}
                   disabled={loading}
                   className="group flex items-center gap-3 px-8 py-3 bg-white border border-gray-200 text-gray-700 rounded-full hover:bg-gray-50 hover:border-indigo-200 hover:text-indigo-600 transition-all duration-300 shadow-sm font-semibold text-sm"
                 >

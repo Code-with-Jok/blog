@@ -1,4 +1,5 @@
 import { createPortal } from "react-dom";
+import { useEffect } from "react";
 
 type ModalProps = {
   isOpen: boolean;
@@ -15,15 +16,34 @@ const Modal = ({
   hideHeader,
   children,
 }: ModalProps) => {
+  // Handle ESC key
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      window.addEventListener("keydown", handleEsc);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-center justify-center size-full bg-black/40"
-      onClick={(e) => e.stopPropagation()}
+      onClick={onClose}
     >
-      <div className="relative flex flex-col bg-white shadow-lg rounded-lg overflow-hidden">
-        {/* Modal header */}
+      <div
+        className="relative flex flex-col bg-white shadow-lg rounded-lg overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
         {!hideHeader && (
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
             <h3 className="md:text-lg font-medium text-gray-900">{title}</h3>

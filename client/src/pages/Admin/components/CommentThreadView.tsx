@@ -39,7 +39,6 @@ const CommentThreadView = ({
 
   return (
     <div className="h-full flex flex-col bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-      {/* 1. Post Context Header */}
       <div className="p-4 bg-slate-50 border-b border-slate-100 flex items-center gap-4">
         <ImagePreview
           src={comment.post?.coverImageUrl}
@@ -61,9 +60,7 @@ const CommentThreadView = ({
         </div>
       </div>
 
-      {/* 2. Scrollable Thread Area */}
       <div className="flex-1 overflow-y-auto p-6 space-y-8">
-        {/* Main Parent Comment */}
         <div className="flex gap-4">
           <ImagePreview
             src={comment.author?.profileImageUrl || avatar}
@@ -98,7 +95,6 @@ const CommentThreadView = ({
           </div>
         </div>
 
-        {/* Divider / Replies Label */}
         {comment.replies && comment.replies.length > 0 && (
           <div className="relative py-2">
             <div className="absolute inset-0 flex items-center">
@@ -113,7 +109,6 @@ const CommentThreadView = ({
           </div>
         )}
 
-        {/* Replies List */}
         <div className="space-y-6 pl-8 md:pl-16">
           {comment.replies?.map((reply) => (
             <div key={reply._id} className="group flex gap-3">
@@ -147,7 +142,6 @@ const CommentThreadView = ({
         </div>
       </div>
 
-      {/* 3. Reply Input Area (Sticky Bottom) */}
       <div className="p-4 bg-white border-t border-slate-100 z-10">
         <CommentReplyInput
           user={user}
@@ -157,7 +151,7 @@ const CommentThreadView = ({
           setReplyText={setReplyText}
           addReply={handleReply}
           handleCancelReply={() => setReplyText("")}
-          type="new" // Reuse "new" style for better look
+          type="new"
         />
       </div>
     </div>

@@ -1,9 +1,5 @@
 import DashboardLayout from "@/components/layouts/AdminLayout/DashboardLayout";
 import { useUserContext } from "@/context/UserContextDefinition";
-
-import { API_PATHS } from "@/utils/apiPaths";
-import axiosInstance from "@/utils/axiosInstance";
-import { useEffect, useState } from "react";
 import moment from "moment";
 import DashboardSummaryCard from "@/components/Cards/DashboardSummaryCard";
 import {
@@ -15,39 +11,13 @@ import {
 import TagInsights from "@/components/Cards/TagInsights";
 import TopPostCard from "@/components/Cards/TopPostCard";
 import RecentComments from "@/components/Cards/RecentComments";
-
-import { type DashboardSummary } from "@/types/api";
+import { useDashboardData } from "@/hooks/useDashboardData";
 
 const Dashboard = () => {
-  const [dashboardData, setDashboardData] = useState<DashboardSummary | null>(
-    null
-  );
-  const [maxViews, setMaxViews] = useState(0);
+  const { dashboardData, maxViews } = useDashboardData();
   const { user } = useUserContext();
 
   const time = moment().format("dddd MMM YYYY");
-
-  useEffect(() => {
-    const getDashboardData = async () => {
-      try {
-        const response = await axiosInstance.get<DashboardSummary>(
-          API_PATHS.DASHBOARD.GET_DASHBOARD_DATA
-        );
-        setDashboardData(response.data);
-
-        const { topPosts } = response.data;
-
-        const totalViews = Math.max(0, ...topPosts.map((post) => post.views));
-        setMaxViews(totalViews);
-      } catch (error) {
-        console.log("Failed to fetch dashboard data", error);
-      }
-    };
-
-    getDashboardData();
-
-    return () => {};
-  }, []);
 
   return (
     <DashboardLayout activeMenu="Dashboard">

@@ -1,101 +1,20 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Input from "../Inputs";
-import axiosInstance from "@/utils/axiosInstance";
-import { API_PATHS } from "@/utils/apiPaths";
-import { validateEmail } from "@/utils/helper";
-import { AxiosError } from "axios";
 import ProfilePhotoSelector from "../Inputs/ProfilePhotoSelector";
-import uploadImage from "@/utils/uploadImage";
-import { useUserContext } from "@/context/UserContextDefinition";
+import { useSignUp } from "@/hooks/useSignUp";
 
 type SignUpProps = {
   setCurrentPage: (page: "login" | "signup") => void;
 };
 
 const SignUp = ({ setCurrentPage }: SignUpProps) => {
-  const [profilePic, setProfilePic] = useState<File | null>(null);
-
-  const [form, setForm] = useState({
-    fullName: "",
-    email: "",
-    password: "",
-    adminAccessToken: "",
-  });
-
-  const [errors, setErrors] = useState<{
-    fullName?: string;
-    email?: string;
-    password?: string;
-    adminAccessToken?: string;
-    root?: string;
-  }>({});
-
-  const { updateUser, setOpenAuthForm } = useUserContext();
-  const navigate = useNavigate();
-
-  const SignUpHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const newErrors: typeof errors = {};
-
-    if (!form.fullName.length) {
-      newErrors.fullName = "Full name is required";
-    }
-
-    if (!validateEmail(form.email)) {
-      newErrors.email = "Please enter a valid email address";
-    }
-
-    if (!form.password.length) {
-      newErrors.password = "Password is required";
-    }
-
-    if (!form.adminAccessToken.length) {
-      newErrors.adminAccessToken = "Admin access token is required";
-    }
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-
-    try {
-      let profileImageUrl = "";
-      if (profilePic) {
-        const imageUploadResponse = await uploadImage(profilePic);
-        profileImageUrl = imageUploadResponse.imageUrl || "";
-      }
-      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
-        name: form.fullName,
-        email: form.email,
-        password: form.password,
-        profileImageUrl,
-        adminAccessToken: form.adminAccessToken,
-      });
-
-      const { token, role } = response.data;
-      if (token) {
-        localStorage.setItem("token", token);
-        updateUser(response.data);
-
-        // Redirect to dashboard
-        if (role === "admin") {
-          setOpenAuthForm(false);
-          navigate("/admin/dashboard");
-        } else {
-          setOpenAuthForm(false);
-          navigate("/");
-        }
-      }
-      setErrors({});
-    } catch (error) {
-      if (error instanceof AxiosError && error.response?.data?.message) {
-        setErrors({ root: error.response.data.message });
-      } else {
-        setErrors({ root: "Something went wrong. Please try again." });
-      }
-    }
-  };
+  const {
+    form,
+    errors,
+    profilePic,
+    setProfilePic,
+    handleInputChange,
+    SignUpHandler,
+  } = useSignUp();
 
   return (
     <div className="flex items-center md:h-[520px] h-fit">
@@ -105,7 +24,6 @@ const SignUp = ({ setCurrentPage }: SignUpProps) => {
           Join us today by entering your details below.
         </p>
 
-        {/* form */}
         <form onSubmit={SignUpHandler}>
           <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
 
@@ -115,7 +33,7 @@ const SignUp = ({ setCurrentPage }: SignUpProps) => {
               type="text"
               placeholder="fullName"
               value={form.fullName}
-              onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+              onChange={(e) => handleInputChange("fullName", e.target.value)}
               error={errors.fullName || null}
             />
 
@@ -124,7 +42,7 @@ const SignUp = ({ setCurrentPage }: SignUpProps) => {
               type="email"
               placeholder="Enter your email"
               value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              onChange={(e) => handleInputChange("email", e.target.value)}
               error={errors.email || null}
             />
 
@@ -133,7 +51,7 @@ const SignUp = ({ setCurrentPage }: SignUpProps) => {
               type="password"
               placeholder="Enter your password"
               value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              onChange={(e) => handleInputChange("password", e.target.value)}
               error={errors.password || null}
             />
 
@@ -143,7 +61,7 @@ const SignUp = ({ setCurrentPage }: SignUpProps) => {
               placeholder="6 Digit Code"
               value={form.adminAccessToken}
               onChange={(e) =>
-                setForm({ ...form, adminAccessToken: e.target.value })
+                handleInputChange("adminAccessToken", e.target.value)
               }
               error={errors.adminAccessToken || null}
             />

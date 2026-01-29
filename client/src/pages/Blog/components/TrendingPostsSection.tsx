@@ -1,8 +1,6 @@
 import ImagePreview from "@/components/ImagePreview";
-import { API_PATHS } from "@/utils/apiPaths";
-import axiosInstance from "@/utils/axiosInstance";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTrendingPosts } from "@/hooks/useTrendingPosts";
 
 interface TrendingPostCardProps {
   title: string;
@@ -11,43 +9,13 @@ interface TrendingPostCardProps {
   onClick: () => void;
 }
 
-interface TrendingPost {
-  _id: string;
-  title: string;
-  slug: string;
-  coverImageUrl: string;
-  tags: string[];
-}
-
 const TrendingPostsSection = () => {
   const navigate = useNavigate();
-
-  const [trendingPosts, setTrendingPosts] = useState<TrendingPost[]>([]);
+  const { trendingPosts } = useTrendingPosts();
 
   const handlePostClick = (slug: string) => {
     navigate(`/post/${slug}`);
   };
-
-  useEffect(() => {
-    const getTrendingPosts = async () => {
-      try {
-        const response = await axiosInstance.get(
-          API_PATHS.POSTS.GET_TRENDING_POSTS
-        );
-        const data = await response.data;
-
-        if (response.data?.length > 0) {
-          setTrendingPosts(data);
-        } else {
-          setTrendingPosts([]);
-        }
-      } catch (error) {
-        console.error("Error fetching trending posts:", error);
-      }
-    };
-
-    getTrendingPosts();
-  }, []);
 
   return (
     <div className="space-y-6">
@@ -57,7 +25,7 @@ const TrendingPostsSection = () => {
             key={item._id}
             index={index}
             title={item.title}
-            coverImageUrl={item.coverImageUrl}
+            coverImageUrl={item.coverImageUrl ?? ""}
             tags={item.tags}
             onClick={() => handlePostClick(item.slug)}
           />

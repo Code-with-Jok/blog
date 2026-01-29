@@ -41,7 +41,6 @@ const CommentReplyInput = ({
 }: CommentReplyInputProps) => {
   const [loading, setLoading] = useState(false);
 
-  // Generate AI Reply
   const generateAIReply = async () => {
     try {
       setLoading(true);

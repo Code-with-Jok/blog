@@ -1,4 +1,4 @@
-import type { Tab } from "@/pages/Admin/BlogPosts";
+import type { Tab } from "@/hooks/useAdminBlogPosts";
 import { cn } from "@/utils";
 
 interface TabsProps {

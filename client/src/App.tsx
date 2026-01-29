@@ -9,6 +9,7 @@ import BlogPosts from "./pages/Admin/BlogPosts";
 import BlogPostEditor from "./pages/Admin/BlogPostEditor";
 import Comments from "./pages/Admin/Comments";
 import BlogPostView from "./pages/Blog/BlogPostView";
+import SearchPosts from "./pages/Blog/SearchPosts";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
           <Route path="/" element={<BlogLandingPage />} />
           <Route path="/post/:slug" element={<BlogPostView />} />
           <Route path="/tag/:tagName" element={<>posts by tag</>} />
-          <Route path="/search" element={<>search</>} />
+          <Route path="/search" element={<SearchPosts />} />
 
           {/* Admin Routes */}
           <Route element={<PrivateRoute allowedRoles={["admin"]} />}>

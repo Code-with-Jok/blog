@@ -1,9 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-
-import axiosInstance from "@/utils/axiosInstance";
-import { API_PATHS } from "@/utils/apiPaths";
-import axios from "axios";
+import { useState } from "react";
 import BlogLayout from "@/components/layouts/BlogLayout";
 import moment from "moment";
 import { LuCircleAlert, LuDot, LuSparkles } from "react-icons/lu";
@@ -11,103 +7,49 @@ import TrendingPostsSection from "./components/TrendingPostsSection";
 import ImagePreview from "@/components/ImagePreview";
 import MDContent from "./components/MDContent";
 import { sanitizeMarkdown } from "@/utils/helper";
-import type { BlogPost } from "@/types/api";
 import CommentSection from "@/components/Comments/CommentSection";
 import { useComments } from "@/hooks/useComments";
 import Skeleton from "react-loading-skeleton";
 import Drawer from "@/components/Drawer";
+import InteractionSidebar from "./components/InteractionSidebar";
+import { useBlogPostDetail } from "@/hooks/useBlogPostDetail";
+import { usePostSummary } from "@/hooks/usePostSummary";
+import { useEffect } from "react";
 
 const BlogPostView = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
 
-  const [blogPostData, setBlogPostData] = useState<BlogPost | null>(null);
+  const { blogPostData, isLoading, error } = useBlogPostDetail(slug);
   const { comments, fetchComments, addComment, deleteComment, replyToComment } =
     useComments();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    summaryContent,
+    isSummaryLoading,
+    summaryError,
+    fetchBlogPostSummary,
+  } = usePostSummary();
 
-  const [summaryContent, setSummaryContent] = useState<string | null>(null);
   const [openSummarizeDrawer, setOpenSummarizeDrawer] = useState(false);
-  const [isSummaryLoading, setIsSummaryLoading] = useState(false);
-  const [summaryError, setSummaryError] = useState<string | null>(null);
 
-  // Get post data by slug
-  const getPostDetailsBySlug = async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await axiosInstance.get(
-        API_PATHS.POSTS.GET_BY_SLUG(slug!)
-      );
-      if (response.data) {
-        const data = response.data;
-        setBlogPostData(data);
-        fetchComments(data._id);
-        incrementViewCount(data._id);
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setError(error.response?.data?.message);
-      } else {
-        setError("Failed to fetch post details");
-      }
-    } finally {
-      setIsLoading(false);
+  // Fetch comments when blog post data is available
+  useEffect(() => {
+    if (blogPostData?._id) {
+      fetchComments(blogPostData._id);
     }
-  };
-
-  // fetch blog post summary
-  const fetchBlogPostSummary = async () => {
-    try {
-      setSummaryError(null);
-      setIsSummaryLoading(true);
-
-      const response = await axiosInstance.post(
-        API_PATHS.AI.GENERATE_POST_SUMMARY,
-        {
-          content: blogPostData?.content ?? "",
-        }
-      );
-
-      if (response.data) {
-        setSummaryContent(response.data.content.summary);
-      }
-    } catch (error) {
-      console.log(error);
-      setSummaryError("Failed to generate summary");
-    } finally {
-      setIsSummaryLoading(false);
-    }
-  };
+  }, [blogPostData?._id, fetchComments]);
 
   const handleToggleSummary = () => {
     if (openSummarizeDrawer) {
       setOpenSummarizeDrawer(false);
     } else {
       setOpenSummarizeDrawer(true);
-      if (!summaryContent) {
-        fetchBlogPostSummary();
+      if (!summaryContent && blogPostData?.content) {
+        fetchBlogPostSummary(blogPostData.content);
       }
     }
   };
-
-  // increment view count
-  const incrementViewCount = async (postId: string) => {
-    if (!postId) return;
-    try {
-      await axiosInstance.post(API_PATHS.POSTS.INCREMENT_VIEW(postId));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    if (slug) {
-      getPostDetailsBySlug();
-    }
-  }, [slug]);
 
   if (error) {
     return (
@@ -123,8 +65,20 @@ const BlogPostView = () => {
   return (
     <BlogLayout activeMenu="Blog Posts">
       <div className="px-4 sm:px-6 lg:px-8 py-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 relative">
+          {/* Left Interaction Sidebar - Desktop */}
+          <div className="hidden lg:block lg:col-span-1 min-w-[60px]">
+            <div className="sticky top-32">
+              <InteractionSidebar
+                postId={blogPostData?._id || ""}
+                initialLikes={blogPostData?.likes || 0}
+                commentCount={comments.length}
+              />
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="lg:col-span-7 xl:col-span-8">
             {isLoading ? (
               <div className="flex justify-center items-center py-20">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
@@ -181,6 +135,12 @@ const BlogPostView = () => {
 
                     <LuDot className="text-gray-300 hidden md:block" />
 
+                    <span className="text-sm font-medium bg-gray-50 px-3 py-1 rounded-full border border-gray-100 shadow-sm">
+                      {blogPostData.views} views
+                    </span>
+
+                    <LuDot className="text-gray-300 hidden md:block" />
+
                     <button
                       className="group flex items-center gap-2 bg-gradient-to-r from-amber-400 to-orange-500 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-lg shadow-orange-200 hover:shadow-orange-300 transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95"
                       onClick={handleToggleSummary}
@@ -207,25 +167,28 @@ const BlogPostView = () => {
                   />
                 </div>
 
-                <CommentSection
-                  postId={blogPostData._id}
-                  comments={comments}
-                  onAddComment={(content) =>
-                    addComment(blogPostData._id, content)
-                  }
-                  onDeleteComment={(commentId) =>
-                    deleteComment(commentId, blogPostData._id)
-                  }
-                  onReplyComment={(content, parentCommentId) =>
-                    replyToComment(blogPostData._id, content, parentCommentId)
-                  }
-                  refreshComments={() => fetchComments(blogPostData._id)}
-                />
+                <div id="comments-section">
+                  <CommentSection
+                    postId={blogPostData._id}
+                    comments={comments}
+                    onAddComment={(content) =>
+                      addComment(blogPostData._id, content)
+                    }
+                    onDeleteComment={(commentId) =>
+                      deleteComment(commentId, blogPostData._id)
+                    }
+                    onReplyComment={(content, parentCommentId) =>
+                      replyToComment(blogPostData._id, content, parentCommentId)
+                    }
+                    refreshComments={() => fetchComments(blogPostData._id)}
+                  />
+                </div>
               </>
             )}
           </div>
 
-          <div className="lg:col-span-4 space-y-8">
+          {/* Right Sidebar */}
+          <div className="lg:col-span-4 xl:col-span-3 space-y-8">
             <div className="sticky top-24 shadow-2xl">
               <div className="bg-white rounded-2xl shadow-xl shadow-gray-100/50 border border-gray-100 overflow-hidden">
                 <div className="p-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>

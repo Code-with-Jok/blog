@@ -1,19 +1,21 @@
 import DashboardLayout from "@/components/layouts/AdminLayout/DashboardLayout";
-import { useEffect, useState, useCallback } from "react";
-import toast from "react-hot-toast";
+import { useState } from "react";
 import Modal from "@/components/Modal";
 import DeleteAlertContent from "@/components/DeleteAlertContent";
-import { commentService, type Comment } from "@/services/commentService";
 import { LuInbox, LuMessageSquare } from "react-icons/lu";
 import CommentSidebarItem from "./components/CommentSidebarItem";
 import CommentThreadView from "./components/CommentThreadView";
+import { useAdminComments } from "@/hooks/useAdminComments";
 
 const Comments = () => {
-  const [comments, setComments] = useState<Comment[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedCommentId, setSelectedCommentId] = useState<string | null>(
-    null
-  );
+  const {
+    comments,
+    loading,
+    selectedCommentId,
+    setSelectedCommentId,
+    refreshComments,
+    deleteComment,
+  } = useAdminComments();
 
   const [openDeleteAlert, setOpenDeleteAlert] = useState<{
     open: boolean;
@@ -23,54 +25,12 @@ const Comments = () => {
     data: null,
   });
 
-  const getAllComments = useCallback(async () => {
-    try {
-      setLoading(true);
-      const data = await commentService.getAll();
-      setComments(data);
-      // Auto-select first comment if none selected and data exists
-      if (data.length > 0 && !selectedCommentId) {
-        setSelectedCommentId(data[0]._id);
-      }
-    } catch (error) {
-      console.log("Error fetching comments:", error);
-      toast.error("Failed to load comments");
-    } finally {
-      setLoading(false);
-    }
-  }, [selectedCommentId]);
-
-  // Helper just to refresh layout or selection if necessary, mostly used by child components
-  const refreshComments = async () => {
-    try {
-      const data = await commentService.getAll();
-      setComments(data);
-    } catch (error) {
-      console.log("Silent refresh failed", error);
-    }
-  };
-
-  const deleteComment = async (commentId: string) => {
-    try {
-      await commentService.delete(commentId);
-      toast.success("Comment deleted successfully");
+  const handleDeleteSubmition = async () => {
+    if (openDeleteAlert.data) {
+      await deleteComment(openDeleteAlert.data);
       setOpenDeleteAlert({ open: false, data: null });
-
-      // If deleted comment was selected, deselect or select next
-      if (selectedCommentId === commentId) {
-        setSelectedCommentId(null);
-      }
-
-      getAllComments();
-    } catch (error) {
-      console.log("Error deleting comment:", error);
-      toast.error("Failed to delete comment");
     }
   };
-
-  useEffect(() => {
-    getAllComments();
-  }, [getAllComments]);
 
   const selectedComment = comments.find((c) => c._id === selectedCommentId);
 
@@ -162,9 +122,7 @@ const Comments = () => {
         <div className="w-full md:w-md">
           <DeleteAlertContent
             content="Are you sure you want to permanently delete this comment? This action cannot be undone."
-            onDelete={() =>
-              openDeleteAlert.data && deleteComment(openDeleteAlert.data)
-            }
+            onDelete={handleDeleteSubmition}
           />
         </div>
       </Modal>

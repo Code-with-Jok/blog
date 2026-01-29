@@ -11,6 +11,7 @@ import Modal from "@/components/Modal";
 import Login from "@/components/Auth/Login";
 import SignUp from "@/components/Auth/SignUp";
 import type { BlogNavbarData, SideMenuData } from "@/types";
+import SearchModal from "@/components/SearchModal";
 
 type BlogNavbarProps = {
   activeMenu?: SideMenuData["label"] | BlogNavbarData["label"];
@@ -18,7 +19,7 @@ type BlogNavbarProps = {
 
 const BlogNavbar = ({ activeMenu }: BlogNavbarProps) => {
   const [openSideMenu, setOpenSideMenu] = useState(false);
-  // const [openSerachBar, setOpenSerachBar] = useState(false); // Unused
+  const [openSearchBar, setOpenSearchBar] = useState(false);
 
   const { user, setOpenAuthForm } = useUserContext();
 
@@ -81,9 +82,9 @@ const BlogNavbar = ({ activeMenu }: BlogNavbarProps) => {
 
           <div className="flex items-center gap-6">
             <button
-              className="hover:text-sky-500 cursor-pointer"
+              className="hover:text-sky-500 cursor-pointer transition-colors"
               onClick={() => {
-                // setOpenSerachBar(true);
+                setOpenSearchBar(true);
               }}
             >
               <LuSearch className="text-[22px]" />
@@ -94,9 +95,9 @@ const BlogNavbar = ({ activeMenu }: BlogNavbarProps) => {
                 onClick={() => {
                   setOpenAuthForm(true);
                 }}
-                className="flex items-center gap-3 bg-linear-to-r from-sky-500 to-cyan-400 text-xs md:text-sm font-semibold text-white px-5 md:px-7 py-2 rounded-full hover:bg-black hover:text-white transition-colors cursor-pointer hover:shadow-2xl hover:shadow-cyan-200"
+                className="hidden md:flex items-center gap-3 bg-linear-to-r from-sky-500 to-cyan-400 text-xs md:text-sm font-semibold text-white px-5 md:px-7 py-2 rounded-full hover:bg-black hover:text-white transition-colors cursor-pointer hover:shadow-2xl hover:shadow-cyan-200"
               >
-                Login/Singup
+                Login/SignUp
               </button>
             ) : (
               <div className="hidden md:block">
@@ -118,6 +119,10 @@ const BlogNavbar = ({ activeMenu }: BlogNavbarProps) => {
       </div>
 
       <AuthModel />
+      <SearchModal
+        isOpen={openSearchBar}
+        onClose={() => setOpenSearchBar(false)}
+      />
     </>
   );
 };

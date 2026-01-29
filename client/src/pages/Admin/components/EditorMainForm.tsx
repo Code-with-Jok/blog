@@ -88,7 +88,6 @@ const EditorMainForm = ({
       )}
 
       <div className="space-y-6">
-        {/* Title Input */}
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-1">
             Post Title
@@ -102,7 +101,6 @@ const EditorMainForm = ({
           />
         </div>
 
-        {/* Cover Image Selector */}
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-2">
             Cover Image
@@ -115,7 +113,6 @@ const EditorMainForm = ({
           />
         </div>
 
-        {/* Content Editor */}
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-2">
             Post Content
