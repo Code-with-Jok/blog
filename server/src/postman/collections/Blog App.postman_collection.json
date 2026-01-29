@@ -16,7 +16,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"test1\",\r\n    \"email\": \"test1@gmail.com\",\r\n    \"password\": \"test@123\",\r\n    \"profileImageUrl\": \"http://localhost:8000/uploads/1769339879991-132031580_741496816797254_4028618000574283360_n.jpg\",\r\n    \"bio\": \"\",\r\n    \"adminAccessToken\": \"222\"\r\n}",
+              "raw": "{\r\n    \"name\": \"test1\",\r\n    \"email\": \"test1@gmail.com\",\r\n    \"password\": \"test@123\",\r\n    \"profileImageUrl\": \"http://localhost:8000/uploads/1769627130266-a143440a-35ec-4902-a495-d41129ecf5b6_1cf4edef.webp\",\r\n    \"bio\": \"\",\r\n    \"adminAccessToken\": \"222\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -166,7 +166,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"title\": \"Create Blog Post 5\",\r\n    \"content\":\"Content\",\r\n    \"coverImageUrl\":\"http://localhost:8000/uploads/1769540996000-avatar.gif\",\r\n    \"tags\":[\"NestJS\",\r\n        \"TypeScript\"\r\n    ],\r\n    \"isDraft\":false,\r\n    \"generatedByAI\":false\r\n}",
+              "raw": "{\r\n    \"title\": \"Create Blog Post 2\",\r\n    \"content\":\"Content\",\r\n    \"coverImageUrl\":\"https://dnm.nflximg.net/api/v6/BvVbc2Wxr2w6QuoANoSpJKEIWjQ/AAAAQWdm8KwUiNrnPrX-4Mg5s4g9MWDGjORRWCZ08vUGUpUPih6ig1cxMXFqQMXo-v0ia0WJb-yeHDMt69zVXqn9LWf07aUb4rkYIbdZXzjRPoIoZZS-vTEEIYEQ2tbQrqB2GnNE45HqWgSUo-9DBfFFxykE4oE.jpg?r=31b\",\r\n    \"tags\":[\"JS\",\r\n        \"Python\"\r\n    ],\r\n    \"isDraft\":false,\r\n    \"generatedByAI\":false\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -226,8 +226,7 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "69790d942143e4bdea8f6153",
-                  "uuid": "b1829d05-0bb8-4046-95fd-c3c67561c241"
+                  "value": "69790d942143e4bdea8f6153"
                 }
               ]
             }
@@ -294,8 +293,7 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "69790dba2143e4bdea8f615c",
-                  "uuid": "e56d600c-859d-4598-a52c-2d2175e4821e"
+                  "value": "69790dba2143e4bdea8f615c"
                 }
               ]
             }
@@ -323,8 +321,7 @@
               "variable": [
                 {
                   "key": "tag",
-                  "value": "MERN",
-                  "uuid": "d7cb5229-509e-499d-bbd4-50ee749de67d"
+                  "value": "MERN"
                 }
               ]
             }
@@ -352,8 +349,7 @@
               "variable": [
                 {
                   "key": "slug",
-                  "value": "update-blog-post",
-                  "uuid": "6dc3bb35-a6cc-47ef-a55c-27a24d8b299f"
+                  "value": "update-blog-post"
                 }
               ]
             }
@@ -498,7 +494,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"content\":\"Love\",\r\n    \"parentComment\":\"697736fef9c678e3059f3a3d\"\r\n}",
+              "raw": "{\r\n    \"content\":\"Love ts\"\r\n    // \"parentComment\":\"697736fef9c678e3059f3a3d\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -519,7 +515,7 @@
               "variable": [
                 {
                   "key": "postId",
-                  "value": "6977441bcc550875d0eef299"
+                  "value": "69790d942143e4bdea8f6153"
                 }
               ]
             }
@@ -612,7 +608,7 @@
               "variable": [
                 {
                   "key": "commentId",
-                  "value": "697744e7cc550875d0eef2b1"
+                  "value": "697a5cc93fabf0f04fb689b0"
                 }
               ]
             }
@@ -827,12 +823,12 @@
   ],
   "variable": [
     {
-      "id": "2de78702-38ff-4270-ac1e-7c1834761363",
+      "id": "2eebba22-585d-4baf-aba6-e0c843d50217",
       "key": "localhost",
       "value": ""
     },
     {
-      "id": "3f930381-8335-45b3-a35d-b3ba7e7ae83c",
+      "id": "9c1f854a-b011-49c0-9a02-497e6ee956cd",
       "key": "accessToken",
       "value": ""
     }

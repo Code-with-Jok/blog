@@ -84,5 +84,6 @@ JSON Output Format:
 }
 
 Ensure the "content" string handles newlines and special characters correctly for JSON parsing.
+CRITICAL: Escape all double quotes within the content string as \". Do not use unescaped double quotes inside values.
 Return ONLY the JSON object.
 `
