@@ -2,7 +2,7 @@ import { cn } from "@/utils";
 import { BLOG_NAVBAR_DATA } from "@/utils/data";
 import { useState } from "react";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
-import { LuSearch } from "react-icons/lu";
+import { LuLayoutDashboard, LuSearch } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import SideMenu from "../../SideMenu";
 import { useUserContext } from "@/context/UserContextDefinition";
@@ -21,6 +21,20 @@ const BlogNavbar = ({ activeMenu }: BlogNavbarProps) => {
   // const [openSerachBar, setOpenSerachBar] = useState(false); // Unused
 
   const { user, setOpenAuthForm } = useUserContext();
+
+  const navbarData =
+    user?.role === "admin"
+      ? [
+          ...BLOG_NAVBAR_DATA,
+          {
+            id: "04",
+            label: "Admin",
+            icon: LuLayoutDashboard,
+            path: "/admin/dashboard",
+            onlySideMenu: false,
+          },
+        ]
+      : BLOG_NAVBAR_DATA;
 
   return (
     <>
@@ -47,7 +61,7 @@ const BlogNavbar = ({ activeMenu }: BlogNavbarProps) => {
 
           <nav>
             <ul className="hidden md:flex items-center gap-10">
-              {BLOG_NAVBAR_DATA.map((item, index) => {
+              {navbarData.map((item, index) => {
                 return item.onlySideMenu ? null : (
                   <Link key={item.id} to={item.path}>
                     <li className="text-[15px] text-black font-medium listnon relative group cursor-pointer">

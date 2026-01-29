@@ -9,7 +9,7 @@ export interface SideMenuData {
 
 export interface BlogNavbarData {
   id: string;
-  label: "Home" | "React JS" | "Next JS";
+  label: "Home" | "React JS" | "Next JS" | "Admin";
   icon: IconType;
   path: string;
   onlySideMenu?: boolean;

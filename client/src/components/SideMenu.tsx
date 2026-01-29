@@ -1,6 +1,6 @@
 import { cn } from "@/utils";
 import { BLOG_NAVBAR_DATA, SIDE_MENU_DATA } from "@/utils/data";
-import { LuLogOut } from "react-icons/lu";
+import { LuLayoutDashboard, LuLogOut } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import CharAvatar from "./Cards/CharAvatar";
 import { useUserContext } from "@/context/UserContextDefinition";
@@ -26,6 +26,23 @@ const SideMenu = ({
     clearUser();
     navigate("/");
     setOpenSideMenu?.(false);
+  };
+
+  const handleNavbarData = () => {
+    const navbar = isBlogMenu ? BLOG_NAVBAR_DATA : SIDE_MENU_DATA;
+    if (user?.role === "admin") {
+      return [
+        ...navbar,
+        {
+          id: "04",
+          label: "Admin",
+          icon: LuLayoutDashboard,
+          path: "/admin/dashboard",
+          onlySideMenu: false,
+        },
+      ];
+    }
+    return navbar;
   };
 
   const navigateTo = (router: string) => {
@@ -62,7 +79,7 @@ const SideMenu = ({
           </>
         </div>
       )}
-      {(isBlogMenu ? BLOG_NAVBAR_DATA : SIDE_MENU_DATA).map((item, index) => (
+      {handleNavbarData().map((item, index) => (
         <button
           key={cn(`menu_${index}`)}
           className={cn(

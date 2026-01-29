@@ -11,6 +11,7 @@ import {
   LuWandSparkles,
 } from "react-icons/lu";
 import ImagePreview from "../ImagePreview";
+import AnonymousAvatar from "@/assets/anonymous.png";
 
 interface CommentReplyInputProps {
   user: User | null;
@@ -21,7 +22,9 @@ interface CommentReplyInputProps {
   addReply: () => void;
   handleCancelReply: () => void;
   disableAutGen?: boolean;
+  isDelete?: boolean;
   type: "reply" | "new";
+  onAuthNeeded?: () => void;
 }
 
 const CommentReplyInput = ({
@@ -34,6 +37,7 @@ const CommentReplyInput = ({
   handleCancelReply,
   disableAutGen,
   type = "reply",
+  onAuthNeeded,
 }: CommentReplyInputProps) => {
   const [loading, setLoading] = useState(false);
 
@@ -61,21 +65,40 @@ const CommentReplyInput = ({
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      addReply();
+    }
+  };
+
+  const handleFocus = () => {
+    if (!user && onAuthNeeded) {
+      onAuthNeeded();
+    }
+  };
+
   return (
-    <div className="mt-4 p-4 bg-slate-50 border border-slate-100 rounded-lg animate-in fade-in zoom-in-95 duration-200">
+    <div className="mt-4 p-4 bg-sky-200 border border-slate-100 rounded-lg animate-in fade-in zoom-in-95 duration-200">
       <div className="flex items-start gap-3">
         <ImagePreview
-          src={user?.profileImageUrl}
-          alt={user?.name}
-          overlayClassName="size-8"
+          src={user?.profileImageUrl ?? AnonymousAvatar}
+          alt={user?.name ?? "Anonymous"}
+          overlayClassName={cn(
+            `${user?.profileImageUrl ? "size-12" : "size-16"}`
+          )}
           wrapperClassName="rounded-full"
-          className="size-8 ring-2 ring-white"
+          className={cn(
+            `${user?.profileImageUrl ? "size-12" : "size-16"} ring-2 ring-white`
+          )}
         />
 
         <div className="flex-1 space-y-3">
           <Input
             value={replyText}
             onChange={(e) => setReplyText(e.target.value)}
+            onKeyDown={handleKeyDown}
+            onFocus={handleFocus}
             label={type === "new" ? authorName : `Reply to @${authorName}`}
             placeholder={
               type === "new" ? "Write a comment..." : "Write your reply..."

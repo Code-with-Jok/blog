@@ -8,6 +8,8 @@ type InputProps = {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string | null;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
 };
 
 const Input = ({
@@ -17,6 +19,8 @@ const Input = ({
   value,
   onChange,
   error,
+  onKeyDown,
+  onFocus,
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -37,6 +41,8 @@ const Input = ({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          onKeyDown={onKeyDown}
+          onFocus={onFocus}
           className="w-full bg-transparent outline-none"
         />
 

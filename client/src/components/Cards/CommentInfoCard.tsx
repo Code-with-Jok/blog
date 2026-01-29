@@ -9,13 +9,12 @@ import {
   LuMessageSquare,
 } from "react-icons/lu";
 import CommentReplyInput from "./CommentReplyInput";
-import toast from "react-hot-toast";
-import { commentService } from "@/services/commentService";
 import { type Comment } from "@/services/commentService";
 import ImagePreview from "../ImagePreview";
 
 interface CommentInfoCardProps {
   commentId: string;
+  postId: string;
   authorName: string;
   authorPhoto: string;
   content: string;
@@ -23,12 +22,16 @@ interface CommentInfoCardProps {
   post: Comment["post"] | null;
   replies: Comment[];
   getAllComments?: () => void;
-  onDelete: (commentId: string) => void;
+  onDelete?: (commentId: string) => void;
+  onReply?: (content: string, parentCommentId: string) => Promise<void>;
   isSubReply?: boolean;
+  isDelete?: boolean;
+  depth?: number;
 }
 
 const CommentInfoCard = ({
   commentId,
+  postId,
   authorName,
   authorPhoto,
   content,
@@ -37,61 +40,60 @@ const CommentInfoCard = ({
   replies,
   getAllComments,
   onDelete,
+  onReply,
   isSubReply = false,
+  isDelete = true,
+  depth = 1,
 }: CommentInfoCardProps) => {
   const { user } = useUserContext();
 
   const [replyText, setReplyText] = useState("");
   const [showReplyForm, setShowReplyForm] = useState(false);
-  const [showSubReplies, setShowSubReplies] = useState(false);
+
+  const [showSubReplies, setShowSubReplies] = useState(isSubReply);
 
   const handleCancelReply = () => {
     setReplyText("");
     setShowReplyForm(false);
   };
 
-  const addReply = async () => {
+  const handleAddReply = async () => {
     try {
-      if (!post?._id) return;
-      await commentService.reply(post._id, replyText, commentId);
+      if (!onReply) return;
+      await onReply(replyText, commentId);
 
-      toast.success("Reply posted successfully");
       setReplyText("");
       setShowReplyForm(false);
 
-      // Expand replies to show the new one
       setShowSubReplies(true);
-
-      getAllComments?.();
     } catch (error) {
       console.log("Error adding reply:", error);
-      toast.error("Failed to add reply");
     }
   };
 
   return (
     <div
       className={cn(
-        "bg-white p-4 rounded-xl border border-slate-200 transition-all hover:border-slate-300 hover:shadow-sm",
-        isSubReply ? "mt-3 ml-6 bg-slate-50/50 border-slate-100" : "mb-4"
+        "p-4 rounded-xl border transition-all hover:shadow-sm",
+        isSubReply
+          ? "mt-3 ml-6 md:ml-12 border-l-4 border-l-indigo-500/30 border-y-slate-100 border-r-slate-100 bg-slate-50/80"
+          : "mb-6 bg-white border-slate-200 shadow-sm"
       )}
     >
       <div className="flex gap-4">
-        {/* Avatar */}
         <div className="shrink-0">
           <ImagePreview
             src={authorPhoto}
             alt={authorName}
+            wrapperClassName="rounded-full"
             className={cn(
-              "rounded-full object-cover border border-slate-100",
+              "object-cover border border-slate-100",
               isSubReply ? "size-8" : "size-10"
             )}
           />
         </div>
 
-        {/* Content */}
         <div className="flex-1 space-y-2">
-          {/* Header: Author & Metadata */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <h3 className="text-sm font-semibold text-slate-800">
@@ -111,25 +113,25 @@ const CommentInfoCard = ({
             )}
           </div>
 
-          {/* Comment Body */}
           <p className="text-sm text-slate-700 leading-relaxed">{content}</p>
 
-          {/* Actions */}
           <div className="flex items-center gap-4 pt-1">
-            {!isSubReply && (
+            {depth < 3 && (
               <button
                 onClick={() => setShowReplyForm((prev) => !prev)}
                 className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-sky-600 transition-colors"
+                aria-label="Reply to comment"
               >
                 <LuReply className="size-3.5" />
                 Reply
               </button>
             )}
 
-            {!isSubReply && replies?.length > 0 && (
+            {replies?.length > 0 && (
               <button
                 onClick={() => setShowSubReplies((prev) => !prev)}
                 className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-blue-600 transition-colors"
+                aria-label={showSubReplies ? "Hide replies" : "Show replies"}
               >
                 <LuMessageSquare className="size-3.5" />
                 {replies.length} {replies.length === 1 ? "Reply" : "Replies"}
@@ -142,16 +144,18 @@ const CommentInfoCard = ({
               </button>
             )}
 
-            <button
-              onClick={() => onDelete(commentId)}
-              className="flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-red-500 transition-colors ml-auto md:ml-0"
-            >
-              <LuTrash2 className="size-3.5" />
-              Delete
-            </button>
+            {isDelete && (
+              <button
+                onClick={() => onDelete?.(commentId)}
+                className="flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-red-500 transition-colors ml-auto md:ml-0"
+                aria-label="Delete comment"
+              >
+                <LuTrash2 className="size-3.5" />
+                Delete
+              </button>
+            )}
           </div>
 
-          {/* Reply Input Form */}
           {showReplyForm && (
             <CommentReplyInput
               user={user}
@@ -159,33 +163,43 @@ const CommentInfoCard = ({
               content={content}
               replyText={replyText}
               setReplyText={setReplyText}
-              addReply={addReply}
+              addReply={handleAddReply}
               handleCancelReply={handleCancelReply}
               type="reply"
             />
           )}
 
-          {/* Nested Replies */}
           {showSubReplies && replies?.length > 0 && (
-            <div className="mt-4 pl-4 border-l-2 border-slate-100">
-              {replies.map((reply) => (
-                <CommentInfoCard
-                  key={reply._id}
-                  commentId={reply._id}
-                  authorName={reply.author?.name || "Unknown"}
-                  authorPhoto={reply.author?.profileImageUrl}
-                  content={reply.content}
-                  updateOn={
-                    reply.updatedAt
-                      ? moment(reply.updatedAt).format("Do MMM YYYY")
-                      : "-"
-                  }
-                  post={null} // Sub-replies don't need to show post info again
-                  replies={reply.replies ?? []}
-                  onDelete={onDelete}
-                  isSubReply={true}
-                />
-              ))}
+            <div className="mt-4 space-y-4">
+              {replies
+                .sort(
+                  (a, b) =>
+                    new Date(b.createdAt).getTime() -
+                    new Date(a.createdAt).getTime()
+                )
+                .map((reply) => (
+                  <CommentInfoCard
+                    isDelete={isDelete}
+                    key={reply._id}
+                    commentId={reply._id}
+                    postId={postId}
+                    authorName={reply.author?.name || "Unknown"}
+                    authorPhoto={reply.author?.profileImageUrl}
+                    content={reply.content}
+                    updateOn={
+                      reply.updatedAt
+                        ? moment(reply.updatedAt).format("Do MMM YYYY")
+                        : "-"
+                    }
+                    post={null}
+                    replies={reply.replies ?? []}
+                    onDelete={onDelete}
+                    onReply={onReply}
+                    isSubReply={true}
+                    depth={depth + 1}
+                    getAllComments={getAllComments}
+                  />
+                ))}
             </div>
           )}
         </div>
