@@ -16,7 +16,7 @@ function App() {
         <Routes>
           {/* Default Routes */}
           <Route path="/" element={<BlogLandingPage />} />
-          <Route path="/:slug" element={<>blog post view</>} />
+          <Route path="/post/:slug" element={<>blog post view</>} />
           <Route path="/tag/:tagName" element={<>posts by tag</>} />
           <Route path="/search" element={<>search</>} />
 
