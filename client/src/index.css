@@ -12,8 +12,13 @@
     font-family: var(--font-display);
   }
   body {
-    background-color: #f7fafe;
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    background-attachment: fixed;
     overflow-x: hidden;
+
+    #root {
+      background: inherit;
+    }
   }
 }
 

@@ -50,22 +50,23 @@ const TrendingPostsSection = () => {
   }, []);
 
   return (
-    <div className="bg-white/50 backdrop-blur-sm rounded-xl p-5 border border-gray-100 shadow-sm sticky top-24">
-      <h4 className="text-lg text-gray-800 font-bold mb-6 flex items-center gap-2">
-        <span className="w-1 h-6 bg-primary rounded-full"></span>
-        Trending Now
-      </h4>
-
-      {trendingPosts.length > 0 &&
-        trendingPosts.map((item) => (
+    <div className="space-y-6">
+      {trendingPosts.length > 0 ? (
+        trendingPosts.map((item, index) => (
           <TrendingPostCard
             key={item._id}
+            index={index}
             title={item.title}
             coverImageUrl={item.coverImageUrl}
             tags={item.tags}
             onClick={() => handlePostClick(item.slug)}
           />
-        ))}
+        ))
+      ) : (
+        <div className="text-gray-400 text-sm text-center py-4">
+          No trending posts yet.
+        </div>
+      )}
     </div>
   );
 };
@@ -77,28 +78,35 @@ const TrendingPostCard = ({
   coverImageUrl,
   tags,
   onClick,
-}: TrendingPostCardProps) => {
+  index,
+}: TrendingPostCardProps & { index: number }) => {
   return (
     <div
-      className="group mb-5 cursor-pointer relative pl-4 transition-all hover:translate-x-1"
+      className="group flex items-center gap-4 cursor-pointer p-2 rounded-xl transition-all hover:bg-gray-50 hover:pl-3"
       onClick={onClick}
     >
-      <div className="flex items-start gap-4">
+      <span className="text-2xl font-bold text-gray-200 group-hover:text-indigo-200 transition-colors w-6 flex-shrink-0 text-center select-none font-mono italic">
+        {index + 1}
+      </span>
+
+      <div className="relative overflow-hidden size-16 rounded-xl flex-shrink-0 shadow-sm border border-gray-100 group-hover:border-indigo-100 transition-colors">
         <ImagePreview
           src={coverImageUrl}
           alt={title}
-          wrapperClassName="size-16 rounded-lg object-cover shrink-0 shadow-sm"
-          className="size-16 rounded-lg object-cover"
+          wrapperClassName="w-full h-full"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
+      </div>
 
-        <div>
-          <h6 className="text-[10px] font-bold text-primary tracking-wider mb-1">
-            {tags[0]?.toUpperCase() || "BLOG"}
-          </h6>
-          <h2 className="text-sm font-semibold text-gray-800 line-clamp-2 leading-snug group-hover:text-primary transition-colors">
-            {title}
-          </h2>
-        </div>
+      <div className="flex flex-col min-w-0">
+        {tags.length > 0 && (
+          <span className="text-[10px] font-bold text-indigo-500 tracking-wider uppercase mb-0.5 line-clamp-1">
+            {tags[0]}
+          </span>
+        )}
+        <h3 className="text-sm font-semibold text-gray-800 line-clamp-2 leading-tight group-hover:text-indigo-700 transition-colors">
+          {title}
+        </h3>
       </div>
     </div>
   );

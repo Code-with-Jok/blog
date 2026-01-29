@@ -28,3 +28,9 @@ export const getToastMessage = (type: "draft" | "updated" | "published") => {
       return "Something went wrong";
   }
 };
+
+export const sanitizeMarkdown = (content: string) => {
+  const markdownBlockRegex = /^```(?:markdown)?\n([\s\S]*?)\n```$/;
+  const match = content.match(markdownBlockRegex);
+  return match ? match[1] : content;
+};

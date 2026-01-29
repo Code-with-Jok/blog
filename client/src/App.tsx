@@ -8,6 +8,7 @@ import Dashboard from "./pages/Admin/Dashboard";
 import BlogPosts from "./pages/Admin/BlogPosts";
 import BlogPostEditor from "./pages/Admin/BlogPostEditor";
 import Comments from "./pages/Admin/Comments";
+import BlogPostView from "./pages/Blog/BlogPostView";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
         <Routes>
           {/* Default Routes */}
           <Route path="/" element={<BlogLandingPage />} />
-          <Route path="/post/:slug" element={<>blog post view</>} />
+          <Route path="/post/:slug" element={<BlogPostView />} />
           <Route path="/tag/:tagName" element={<>posts by tag</>} />
           <Route path="/search" element={<>search</>} />
 
