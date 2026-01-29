@@ -61,7 +61,7 @@ export const getAllComments = async (req: Request, res: Response) => {
     // Fetch all comments with author populated using .lean() for performance
     const comments = (await Comment.find()
       .populate('author', 'name profileImageUrl')
-      .populate('post', 'title converImageUrl')
+      .populate('post', 'title slug coverImageUrl')
       .sort({ createdAt: 1 })
       .lean()) as any[]
 

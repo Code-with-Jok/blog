@@ -2,6 +2,67 @@ import { blogPostIdeasPrompt, blogSummaryPrompt, generateBlogPostPrompt, generat
 import { GoogleGenAI } from '@google/genai'
 import { Request, Response } from 'express'
 
+// Helper to clean JSON string
+const cleanJsonString = (str: string) => {
+  if (!str) return ''
+
+  // Function to extract the FIRST balanced JSON block
+  const extractJSON = (text: string, startChar: '{' | '[', endChar: '}' | ']') => {
+    const startIndex = text.indexOf(startChar)
+    if (startIndex === -1) return null
+
+    let balance = 0
+    let inString = false
+    let escape = false
+
+    for (let i = startIndex; i < text.length; i++) {
+      const char = text[i]
+      if (escape) {
+        escape = false
+        continue
+      }
+      if (char === '\\') {
+        escape = true
+        continue
+      }
+      if (char === '"') {
+        inString = !inString
+        continue
+      }
+      if (!inString) {
+        if (char === startChar) balance++
+        else if (char === endChar) {
+          balance--
+          if (balance === 0) {
+            return text.substring(startIndex, i + 1)
+          }
+        }
+      }
+    }
+    return null
+  }
+
+  // Try extracting array or object, depending on which comes first
+  const firstBrace = str.indexOf('{')
+  const firstBracket = str.indexOf('[')
+
+  // Determine if we should look for array or object first
+  let json: string | null = null
+  if (firstBrace !== -1 && (firstBracket === -1 || firstBrace < firstBracket)) {
+    json = extractJSON(str, '{', '}')
+  } else if (firstBracket !== -1) {
+    json = extractJSON(str, '[', ']')
+  }
+
+  if (json) return json
+
+  // Fallback cleanup if extraction fails (though the above should catch valid JSON)
+  return str
+    .replace(/```json/g, '')
+    .replace(/```/g, '')
+    .trim()
+}
+
 // @desc Generate blog post
 // @route POST /api/v1/ai/generate
 // @access Private
@@ -18,7 +79,17 @@ export const generateBlogPost = async (req: Request, res: Response) => {
       model: 'gemini-2.5-flash',
       contents: generateBlogPostPrompt(title, tone),
       config: {
-        responseMimeType: 'application/json'
+        responseMimeType: 'application/json',
+        responseSchema: {
+          type: 'OBJECT',
+          properties: {
+            title: { type: 'STRING' },
+            slug: { type: 'STRING' },
+            content: { type: 'STRING' },
+            tags: { type: 'ARRAY', items: { type: 'STRING' } }
+          },
+          required: ['title', 'slug', 'content', 'tags']
+        }
       }
     })
 
@@ -27,6 +98,7 @@ export const generateBlogPost = async (req: Request, res: Response) => {
       return res.status(500).json({ message: 'Failed to generate blog post' })
     }
 
+    // With responseSchema, the text is guaranteed to be valid JSON
     const data = JSON.parse(text)
 
     res.status(200).json({ content: data })
@@ -52,7 +124,20 @@ export const generateBlogPostIdeas = async (req: Request, res: Response) => {
       model: 'gemini-2.5-flash',
       contents: blogPostIdeasPrompt(topics),
       config: {
-        responseMimeType: 'application/json'
+        responseMimeType: 'application/json',
+        responseSchema: {
+          type: 'ARRAY',
+          items: {
+            type: 'OBJECT',
+            properties: {
+              title: { type: 'STRING' },
+              tags: { type: 'ARRAY', items: { type: 'STRING' } },
+              tone: { type: 'STRING' },
+              summary: { type: 'STRING' }
+            },
+            required: ['title', 'tags', 'tone', 'summary']
+          }
+        }
       }
     })
 
@@ -64,8 +149,17 @@ export const generateBlogPostIdeas = async (req: Request, res: Response) => {
     const data = JSON.parse(text)
 
     res.status(200).json({ content: data })
-  } catch (error) {
-    console.log(error)
+  } catch (error: any) {
+    console.error('Error generating blog post ideas:', error)
+
+    if (error.status === 503 || error.message?.includes('overloaded')) {
+      return res.status(503).json({ message: 'AI Service is currently overloaded. Please try again in a few moments.' })
+    }
+
+    if (error.status === 429) {
+      return res.status(429).json({ message: 'Daily quota exceeded. Please try again later.' })
+    }
+
     res.status(500).json({ message: 'Generate blog post ideas failed' })
   }
 }
@@ -96,7 +190,14 @@ export const generateBlogPostReply = async (req: Request, res: Response) => {
       return res.status(500).json({ message: 'Failed to generate blog post reply' })
     }
 
-    const data = JSON.parse(text)
+    let data
+    try {
+      data = JSON.parse(cleanJsonString(text))
+    } catch (parseError) {
+      console.error('JSON Parse Error in generateBlogPostReply:', parseError)
+      console.log('Raw text:', text)
+      return res.status(500).json({ message: 'Failed to parse AI response' })
+    }
 
     res.status(200).json({ content: data })
   } catch (error) {
@@ -130,7 +231,14 @@ export const generateBlogPostSummary = async (req: Request, res: Response) => {
       return res.status(500).json({ message: 'Failed to generate blog post summary' })
     }
 
-    const data = JSON.parse(text)
+    let data
+    try {
+      data = JSON.parse(cleanJsonString(text))
+    } catch (parseError) {
+      console.error('JSON Parse Error in generateBlogPostSummary:', parseError)
+      console.log('Raw text:', text)
+      return res.status(500).json({ message: 'Failed to parse AI response' })
+    }
 
     res.status(200).json({ content: data })
   } catch (error) {
