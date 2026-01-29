@@ -1,0 +1,88 @@
+import { cn } from "@/utils";
+import { LuEye, LuHeartHandshake, LuTrash2 } from "react-icons/lu";
+import ImagePreview from "../ImagePreview";
+
+interface BlogPostSummaryCardProps {
+  title: string;
+  imgUrl: string;
+  updatedOn: string;
+  tags: string[];
+  likes: number;
+  views: number;
+  onClick: () => void;
+  onDelete: () => void;
+}
+
+const BlogPostSummaryCard = ({
+  title,
+  imgUrl,
+  updatedOn,
+  tags,
+  likes,
+  views,
+  onClick,
+  onDelete,
+}: BlogPostSummaryCardProps) => {
+  return (
+    <div
+      className="flex items-center gap-4 bg-white p-3 mb-5 rounded-lg cursor-pointer group"
+      onClick={onClick}
+    >
+      <ImagePreview
+        src={imgUrl}
+        alt={title}
+        className="size-16 object-cover"
+        wrapperClassName="rounded-lg shrink-0"
+      />
+
+      <div className="flex-1">
+        <h3 className="text-[13px] md:text-[15px] text-black font-medium">
+          {title}
+        </h3>
+
+        <div className="flex items-center gap-2.5 mt-2 flex-wrap">
+          <div className="text-[11px] text-gray-700 font-medium bg-gray-100 px-2.5 py-1 rounded">
+            Updated: {updatedOn}
+          </div>
+
+          <div className="h-6 w-px bg-gray-300/70" />
+
+          <div className="flex items-center gap-2">
+            <span className="flex items-center gap-1.5 text-xs text-sky-700 font-medium bg-sky-50 px-2.5 py-1 rounded">
+              <LuEye className="text-[16px] text-sky-500" />
+              {views}
+            </span>
+
+            <span className="flex items-center gap-1.5 text-xs text-sky-700 font-medium bg-sky-50 px-2.5 py-1 rounded">
+              <LuHeartHandshake className="text-[16px] text-sky-500" />
+              {likes}
+            </span>
+          </div>
+
+          <div className="h-6 w-px bg-gray-300/70" />
+        </div>
+        <div className="flex items-center gap-2 mt-3">
+          {tags.map((tag) => (
+            <div
+              key={cn(`tag-${tag}`)}
+              className="text-xs text-cyan-700 font-medium bg-cyan-100/50 px-2.5 py-1 rounded"
+            >
+              {tag}
+            </div>
+          ))}
+        </div>
+      </div>
+      <button
+        className="hidden md:flex items-center gap-2  text-rose-500 font-medium bg-rose-50 px-3 py-1 rounded text-nowrap border border-rose-100 hover:border-rose-200 cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          onDelete();
+        }}
+      >
+        <LuTrash2 /> <span className="block">Delete</span>
+      </button>
+    </div>
+  );
+};
+
+export default BlogPostSummaryCard;
