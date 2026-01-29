@@ -72,18 +72,19 @@ The tone of the article should be: "${tone}".
 Requirements:
 1. Content Depth: Provide deep insights, practical examples, and well-reasoned arguments.
 2. Structure: Use Markdown formatting. Include a clear introduction, logically organized sections with H2 and H3 headers, bullet points for readability, and a concluding summary.
-3. Code Snippets: If the topic is technical, include relevant, well-commented code blocks.
+3. Code Snippets: If the topic is technical, YOU MUST use standard Markdown fenced code blocks (\`\`\`language\\n code \\n\`\`\`). Do not write code without the triple backticks wrappers and language identifier.
 4. Model Alignment: The output must strictly follow the JSON structure below to match our database.
 
 JSON Output Format:
 {
   "title": "A catchy, SEO-friendly version of the title",
   "slug": "url-friendly-slug-of-the-title",
-  "content": "The full blog post content in Markdown format...",
+  "content": "The full blog post content in Markdown format, with proper code blocks...",
   "tags": ["tag1", "tag2", "tag3", "tag4"]
 }
 
 Ensure the "content" string handles newlines and special characters correctly for JSON parsing.
 CRITICAL: Escape all double quotes within the content string as \". Do not use unescaped double quotes inside values.
+CRITICAL: When including code blocks, ensure the triple backticks are part of the string value (e.g. \"... \\n\\n\`\`\`javascript\\nconst x = 1;\\n\`\`\`\\n\\n ...\").
 Return ONLY the JSON object.
 `

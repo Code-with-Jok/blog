@@ -76,7 +76,7 @@ export const generateBlogPost = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Title is required' })
     }
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: generateBlogPostPrompt(title, tone),
       config: {
         responseMimeType: 'application/json',
@@ -121,7 +121,7 @@ export const generateBlogPostIdeas = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'topics is required' })
     }
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: blogPostIdeasPrompt(topics),
       config: {
         responseMimeType: 'application/json',
@@ -178,7 +178,7 @@ export const generateBlogPostReply = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'content is required' })
     }
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: generateReplyPrompt(content, author),
       config: {
         responseMimeType: 'application/json'
@@ -219,7 +219,7 @@ export const generateBlogPostSummary = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'content is required' })
     }
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: blogSummaryPrompt(content),
       config: {
         responseMimeType: 'application/json'
