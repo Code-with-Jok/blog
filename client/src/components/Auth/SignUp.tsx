@@ -26,7 +26,11 @@ const SignUp = ({ setCurrentPage }: SignUpProps) => {
 
         <form onSubmit={SignUpHandler}>
           <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
-
+          {errors.profileImageUrl && (
+            <div className="text-red-500 text-xs pb-2.5 mb-2">
+              {errors.profileImageUrl}
+            </div>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <Input
               label="Full Name"
