@@ -1,6 +1,7 @@
 import { cn } from "@/utils";
 import { BLOG_NAVBAR_DATA, SIDE_MENU_DATA } from "@/utils/data";
 import { LuLayoutDashboard, LuLogOut } from "react-icons/lu";
+import { FaHome } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import CharAvatar from "./Cards/CharAvatar";
 import { useUserContext } from "@/context/UserContextDefinition";
@@ -30,7 +31,10 @@ const SideMenu = ({
   };
   const handleNavbarData = () => {
     const navbar = isBlogMenu ? BLOG_NAVBAR_DATA : SIDE_MENU_DATA;
-    if (user?.role === "admin" && location.pathname !== "/admin/dashboard") {
+
+    const path = location.pathname;
+    const vaidateAdminPath = path.includes("/admin");
+    if (user?.role === "admin" && !vaidateAdminPath) {
       return [
         ...navbar,
         {
@@ -42,7 +46,16 @@ const SideMenu = ({
         },
       ];
     }
-    return navbar;
+    return [
+      {
+        id: "00",
+        label: "Home",
+        icon: FaHome,
+        path: "/",
+        onlySideMenu: false,
+      },
+      ...navbar,
+    ];
   };
 
   const navigateTo = (router: string) => {
