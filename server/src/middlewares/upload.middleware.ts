@@ -16,8 +16,7 @@ const storage = new CloudinaryStorage({
   params: async (req, file) => {
     return {
       folder: 'blog-app',
-      resource_type: 'auto',
-      allowed_formats: ['jpg', 'png', 'jpeg', 'webp']
+      resource_type: 'auto'
     }
   }
 })
