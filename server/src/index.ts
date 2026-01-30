@@ -19,6 +19,9 @@ connectDB()
   })
 
 const startSever = async () => {
+  // Trust proxy for secure cookies and protocol detection (Render/Heroku/Vercel)
+  app.set('trust proxy', 1)
+
   // middleware to handle Cors
   app.use(
     cors({
