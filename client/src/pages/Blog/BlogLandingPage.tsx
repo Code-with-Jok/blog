@@ -5,6 +5,7 @@ import moment from "moment";
 import FeaturedBlogPost from "./components/FeaturedBlogPost";
 import BlogPostCard from "./components/BlogPostCard";
 import TrendingPostsSection from "./components/TrendingPostsSection";
+import EmptyState from "@/components/EmptyState";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
 
 const BlogLandingPage = () => {
@@ -21,27 +22,39 @@ const BlogLandingPage = () => {
       <div className="px-4 sm:px-6 lg:px-8 py-10 md:py-16">
         <div className="lg:grid lg:grid-cols-12 lg:gap-10 md:flex md:flex-col md:gap-10">
           <div className="col-span-12 md:col-span-8">
-            {sectionTitle("Featured Post")}
             {blogPostList.length > 0 && (
-              <FeaturedBlogPost
-                title={blogPostList[0].title}
-                coverImageUrl={blogPostList[0].coverImageUrl ?? ""}
-                description={blogPostList[0].content}
-                tags={blogPostList[0].tags}
-                updatedOn={
-                  blogPostList[0].updatedAt
-                    ? moment(blogPostList[0].updatedAt).format("Do MMM YYYY")
-                    : "-"
-                }
-                authorName={blogPostList[0].author.name}
-                authProfileImg={blogPostList[0].author.profileImageUrl ?? ""}
-                onClick={() => navigateToPost(blogPostList[0].slug)}
+              <>
+                {sectionTitle("Featured Post")}
+                <FeaturedBlogPost
+                  title={blogPostList[0].title}
+                  coverImageUrl={blogPostList[0].coverImageUrl ?? ""}
+                  description={blogPostList[0].content}
+                  tags={blogPostList[0].tags}
+                  updatedOn={
+                    blogPostList[0].updatedAt
+                      ? moment(blogPostList[0].updatedAt).format("Do MMM YYYY")
+                      : "-"
+                  }
+                  authorName={blogPostList[0].author.name}
+                  authProfileImg={blogPostList[0].author.profileImageUrl ?? ""}
+                  onClick={() => navigateToPost(blogPostList[0].slug)}
+                />
+              </>
+            )}
+
+            {!loading && blogPostList.length === 0 && (
+              <EmptyState
+                message="No blog posts found"
+                subMessage="Check back later for new updates and articles!"
+                className="mt-10"
               />
             )}
 
-            <div className="mt-16 mb-8 flex items-center justify-between">
-              {sectionTitle("Latest Articles")}
-            </div>
+            {blogPostList.length > 0 && (
+              <div className="mt-16 mb-8 flex items-center justify-between">
+                {sectionTitle("Latest Articles")}
+              </div>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {blogPostList.length > 0 &&

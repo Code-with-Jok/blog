@@ -12,6 +12,8 @@ import TagInsights from "@/components/Cards/TagInsights";
 import TopPostCard from "@/components/Cards/TopPostCard";
 import RecentComments from "@/components/Cards/RecentComments";
 import { useDashboardData } from "@/hooks/useDashboardData";
+import EmptyState from "@/components/EmptyState";
+import { LuTag, LuTrophy, LuMessageSquare } from "react-icons/lu";
 
 const Dashboard = () => {
   const { dashboardData, maxViews } = useDashboardData();
@@ -75,7 +77,16 @@ const Dashboard = () => {
               <div className="flex items-center justify-between">
                 <h5 className="font-medium">Tag Insights</h5>
               </div>
-              <TagInsights tagUsage={dashboardData?.tagUsage ?? []} />
+              {dashboardData?.tagUsage && dashboardData.tagUsage.length > 0 ? (
+                <TagInsights tagUsage={dashboardData.tagUsage} />
+              ) : (
+                <EmptyState
+                  message="No Tags Yet"
+                  subMessage=""
+                  icon={<LuTag className="text-3xl" />}
+                  className="py-6 border-none bg-gray-50/50"
+                />
+              )}
             </div>
 
             <div className="col-span-12 md:col-span-5 bg-white p-6 rounded-2xl shadow-md shadow-gray-100 border border-gray-200/50">
@@ -83,16 +94,25 @@ const Dashboard = () => {
                 <h5 className="font-medium">Top Posts</h5>
               </div>
 
-              {dashboardData?.topPosts?.map((post) => (
-                <TopPostCard
-                  key={post._id}
-                  title={post.title}
-                  coverImageUrl={post.coverImageUrl || ""}
-                  views={post.views}
-                  likes={post.likes}
-                  maxViews={maxViews}
+              {dashboardData?.topPosts && dashboardData.topPosts.length > 0 ? (
+                dashboardData.topPosts.map((post) => (
+                  <TopPostCard
+                    key={post._id}
+                    title={post.title}
+                    coverImageUrl={post.coverImageUrl || ""}
+                    views={post.views}
+                    likes={post.likes}
+                    maxViews={maxViews}
+                  />
+                ))
+              ) : (
+                <EmptyState
+                  message="No Top Posts"
+                  subMessage=""
+                  icon={<LuTrophy className="text-3xl" />}
+                  className="py-6 border-none bg-gray-50/50"
                 />
-              ))}
+              )}
             </div>
 
             <div className="col-span-12 bg-white p-6 rounded-2xl shadow-md shadow-gray-100 border border-gray-200/50">
@@ -100,7 +120,17 @@ const Dashboard = () => {
                 <h5 className="font-medium">Recent Comments</h5>
               </div>
 
-              <RecentComments comments={dashboardData?.recentComments ?? []} />
+              {dashboardData?.recentComments &&
+              dashboardData.recentComments.length > 0 ? (
+                <RecentComments comments={dashboardData.recentComments} />
+              ) : (
+                <EmptyState
+                  message="No Recent Comments"
+                  subMessage="Comments from readers will appear here."
+                  icon={<LuMessageSquare className="text-3xl" />}
+                  className="py-10 border-none bg-gray-50/50"
+                />
+              )}
             </div>
           </div>
         </>

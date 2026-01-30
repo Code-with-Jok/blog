@@ -9,6 +9,7 @@ import { LuGalleryVerticalEnd, LuLoaderCircle, LuPlus } from "react-icons/lu";
 import moment from "moment";
 import { type BlogPost } from "@/types/api"; // Keep type import if needed for delete alert
 import { useAdminBlogPosts } from "@/hooks/useAdminBlogPosts";
+import EmptyState from "@/components/EmptyState";
 
 const BlogPosts = () => {
   const navigate = useNavigate();
@@ -62,23 +63,36 @@ const BlogPosts = () => {
         />
 
         <div className="mt-5">
-          {blogPostList.map((post) => (
-            <BlogPostSummaryCard
-              key={post._id}
-              title={post.title}
-              imgUrl={post.coverImageUrl || ""}
-              updatedOn={
-                post.updatedAt
-                  ? moment(post.updatedAt).format("Do MMM YYYY")
-                  : "-"
-              }
-              tags={post.tags}
-              likes={post.likes}
-              views={post.views}
-              onClick={() => navigate(`/admin/edit/${post.slug}`)}
-              onDelete={() => setOpenDeleteAlert({ open: true, data: post })}
+          {!isLoading && blogPostList.length === 0 ? (
+            <EmptyState
+              message="No posts created yet"
+              subMessage="Start sharing your thoughts with the world!"
+              actionLabel="Create Post"
+              onAction={() => navigate("/admin/create-post")}
             />
-          ))}
+          ) : (
+            <div className="space-y-4">
+              {blogPostList.map((post) => (
+                <BlogPostSummaryCard
+                  key={post._id}
+                  title={post.title}
+                  imgUrl={post.coverImageUrl || ""}
+                  updatedOn={
+                    post.updatedAt
+                      ? moment(post.updatedAt).format("Do MMM YYYY")
+                      : "-"
+                  }
+                  tags={post.tags}
+                  likes={post.likes}
+                  views={post.views}
+                  onClick={() => navigate(`/admin/edit/${post.slug}`)}
+                  onDelete={() =>
+                    setOpenDeleteAlert({ open: true, data: post })
+                  }
+                />
+              ))}
+            </div>
+          )}
 
           {page < totalPages && (
             <div className="flex items-center justify-center mb-8">
