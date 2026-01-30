@@ -11,7 +11,7 @@ const SignUp = ({ setCurrentPage }: SignUpProps) => {
     form,
     errors,
     profilePic,
-    setProfilePic,
+    handleImageChange,
     handleInputChange,
     SignUpHandler,
   } = useSignUp();
@@ -25,7 +25,10 @@ const SignUp = ({ setCurrentPage }: SignUpProps) => {
         </p>
 
         <form onSubmit={SignUpHandler}>
-          <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
+          <ProfilePhotoSelector
+            image={profilePic}
+            setImage={handleImageChange}
+          />
           {errors.profileImageUrl && (
             <div className="text-red-500 text-xs pb-2.5 mb-2">
               {errors.profileImageUrl}

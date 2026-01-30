@@ -12,7 +12,7 @@ interface UseSignUpReturn {
   form: SignUpForm;
   errors: SignUpErrors;
   profilePic: File | null;
-  setProfilePic: (file: File | null) => void;
+  handleImageChange: (file: File | null) => void;
   setForm: React.Dispatch<React.SetStateAction<SignUpForm>>;
   handleInputChange: (field: string, value: string) => void;
   SignUpHandler: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
@@ -37,6 +37,13 @@ export const useSignUp = (): UseSignUpReturn => {
     setForm((prev) => ({ ...prev, [field]: value }));
     if (errors[field as keyof SignUpErrors]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
+  };
+
+  const handleImageChange = (file: File | null) => {
+    setProfilePic(file);
+    if (file && errors.profileImageUrl) {
+      setErrors((prev) => ({ ...prev, profileImageUrl: undefined }));
     }
   };
 
@@ -108,7 +115,7 @@ export const useSignUp = (): UseSignUpReturn => {
     form,
     errors,
     profilePic,
-    setProfilePic,
+    handleImageChange,
     setForm,
     handleInputChange,
     SignUpHandler,
