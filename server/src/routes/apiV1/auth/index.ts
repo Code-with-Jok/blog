@@ -19,8 +19,8 @@ router.post('/upload-image', upload.single('image'), (req, res) => {
     })
   }
 
-  const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get('host')}`
-  const imageUrl = `${baseUrl}/uploads/${req.file.filename}`
+  // When using Cloudinary storage, `req.file.path` contains the public URL
+  const imageUrl = req.file.path
 
   res.status(200).json({
     message: 'Image uploaded successfully',

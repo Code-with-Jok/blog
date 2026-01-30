@@ -19,6 +19,8 @@ A full-featured, modern blogging platform built with the MERN stack (MongoDB, Ex
   - Manage users and posts.
 - **Responsive Design**: Built with Tailwind CSS for a seamless experience on mobile and desktop.
 - **Search & Filter**: Find posts easily by title or tags.
+- **Smart Empty States**: User-friendly messaging and actions when no data is available.
+- **Image Hosting**: Integrated with Cloudinary for persistent image storage.
 
 ## 🛠️ Tech Stack
 
@@ -38,7 +40,7 @@ A full-featured, modern blogging platform built with the MERN stack (MongoDB, Ex
 - **Framework**: Express.js
 - **Database**: MongoDB (with Mongoose ODM)
 - **Authentication**: JWT, bcryptjs
-- **File Uploads**: Multer
+- **File Uploads**: Multer, Cloudinary
 - **AI**: Google Generative AI SDK
 
 ## 📐 Business Logic & Architecture
@@ -102,7 +104,10 @@ classDiagram
     cd server
     npm install
     cp .env.example .env
-    # Configure your .env variables (MONGO_URI, JWT_SECRET, GEMINI_API_KEY, etc.)
+    # Configure your .env variables:
+    # - MONGO_URI
+    # - GOOGLE_API_KEY (for AI)
+    # - CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET (for Images)
     npm run dev
     ```
 
