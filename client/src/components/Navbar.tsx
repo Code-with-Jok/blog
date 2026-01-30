@@ -3,7 +3,7 @@ import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import SideMenu from "./SideMenu";
 import type { BlogNavbarData, SideMenuData } from "@/types";
-
+import logo from "@/assets/logo.png";
 interface NavbarProps {
   activeMenu?: SideMenuData["label"] | BlogNavbarData["label"];
 }
@@ -16,7 +16,7 @@ const Navbar = ({ activeMenu }: NavbarProps) => {
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery(""); 
+      setSearchQuery("");
     }
   };
 
@@ -35,7 +35,7 @@ const Navbar = ({ activeMenu }: NavbarProps) => {
         </button>
 
         <img
-          src="./logo.png"
+          src={logo}
           alt="logo"
           className="h-[24px] md:h-[26px] cursor-pointer"
           onClick={() => navigate("/")}

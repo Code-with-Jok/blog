@@ -12,6 +12,7 @@ import Login from "@/components/Auth/Login";
 import SignUp from "@/components/Auth/SignUp";
 import type { BlogNavbarData, SideMenuData } from "@/types";
 import SearchModal from "@/components/SearchModal";
+import logo from "@/assets/logo.png";
 
 type BlogNavbarProps = {
   activeMenu?: SideMenuData["label"] | BlogNavbarData["label"];
@@ -56,7 +57,7 @@ const BlogNavbar = ({ activeMenu }: BlogNavbarProps) => {
             </button>
 
             <Link to="/">
-              <img src="logo.png" alt="logo" className="h-6 md:h-[26px]" />
+              <img src={logo} alt="logo" className="h-6 md:h-[26px]" />
             </Link>
           </div>
 
