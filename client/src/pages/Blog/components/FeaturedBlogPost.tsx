@@ -1,5 +1,3 @@
-import ImagePreview from "@/components/ImagePreview";
-
 interface FeaturedBlogPostProps {
   title: string;
   coverImageUrl: string;
