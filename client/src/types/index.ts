@@ -14,3 +14,19 @@ export interface BlogNavbarData {
   path: string;
   onlySideMenu?: boolean;
 }
+
+export interface SignUpForm {
+  fullName: string;
+  email: string;
+  password: string;
+  adminAccessToken: string;
+}
+
+export interface SignUpErrors {
+  fullName?: string;
+  email?: string;
+  password?: string;
+  adminAccessToken?: string;
+  root?: string;
+  profileImageUrl?: string;
+}

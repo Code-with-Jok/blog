@@ -6,13 +6,14 @@ import axiosInstance from "@/utils/axiosInstance";
 import { API_PATHS } from "@/utils/apiPaths";
 import uploadImage from "@/utils/uploadImage";
 import { useUserContext } from "@/context/UserContextDefinition";
+import type { SignUpErrors, SignUpForm } from "@/types";
 
 interface UseSignUpReturn {
-  form: any;
-  errors: any;
+  form: SignUpForm;
+  errors: SignUpErrors;
   profilePic: File | null;
   setProfilePic: (file: File | null) => void;
-  setForm: React.Dispatch<React.SetStateAction<any>>;
+  setForm: React.Dispatch<React.SetStateAction<SignUpForm>>;
   handleInputChange: (field: string, value: string) => void;
   SignUpHandler: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
 }
@@ -20,34 +21,28 @@ interface UseSignUpReturn {
 export const useSignUp = (): UseSignUpReturn => {
   const [profilePic, setProfilePic] = useState<File | null>(null);
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<SignUpForm>({
     fullName: "",
     email: "",
     password: "",
     adminAccessToken: "",
   });
 
-  const [errors, setErrors] = useState<{
-    fullName?: string;
-    email?: string;
-    password?: string;
-    adminAccessToken?: string;
-    root?: string;
-  }>({});
+  const [errors, setErrors] = useState<SignUpErrors>({});
 
   const { updateUser, setOpenAuthForm } = useUserContext();
   const navigate = useNavigate();
 
   const handleInputChange = (field: string, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
-    if (errors[field as keyof typeof errors]) {
+    if (errors[field as keyof SignUpErrors]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
   };
 
   const SignUpHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newErrors: typeof errors = {};
+    const newErrors: SignUpErrors = {};
 
     if (!form.fullName.length) {
       newErrors.fullName = "Full name is required";
@@ -61,8 +56,8 @@ export const useSignUp = (): UseSignUpReturn => {
       newErrors.password = "Password is required";
     }
 
-    if (!form.adminAccessToken.length) {
-      newErrors.adminAccessToken = "Admin access token is required";
+    if (!profilePic) {
+      newErrors.profileImageUrl = "Profile image is required";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -76,6 +71,7 @@ export const useSignUp = (): UseSignUpReturn => {
         const imageUploadResponse = await uploadImage(profilePic);
         profileImageUrl = imageUploadResponse.imageUrl || "";
       }
+
       const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
         name: form.fullName,
         email: form.email,
